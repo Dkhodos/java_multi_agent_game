@@ -1,4 +1,4 @@
-package GameExecutor;
+package Mailer;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -39,7 +39,7 @@ public class Mailer {
 	public void subscribe(int agentId) {
 		logger.info("Registering a new agent with id " + agentId);
 
-		List<Message> l= new ArrayList<Message>();
+		List<Message> l= new ArrayList<>();
 		this.map.put(agentId, l);
 	}
 }

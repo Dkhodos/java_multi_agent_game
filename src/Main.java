@@ -1,8 +1,5 @@
-import ArgsSerializer.ArgsSerializer;
-import ArgsSerializer.GameArguments;
-import ArgsSerializer.GameType;
-import Exceptions.InvalidGameException;
-import Exceptions.NotEnoughArgumentsException;
+import ArgsSerializer.*;
+import Exceptions.*;
 import GameExecutor.GameExecutor;
 import Logger.Logger;
 
@@ -22,7 +19,7 @@ public class Main {
             return;
         }
 
-
+        // run game
         GameExecutor gameExecutor = new GameExecutor(gameArguments);
         gameExecutor.runGame();
     }

@@ -1,4 +1,4 @@
-package GameExecutor;
+package Mailer;
 
 public interface Message {
 	

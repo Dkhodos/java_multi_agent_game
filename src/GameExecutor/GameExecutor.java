@@ -1,8 +1,12 @@
 package GameExecutor;
 
+import Agent.Agent;
+import AgentNetwork.AgentNetwork;
 import ArgsSerializer.GameArguments;
-
-import java.util.List;
+import AgentNetwork.NetworkGenerator;
+import Agent.AgentFactory;
+import ArgsSerializer.GameType;
+import Mailer.Mailer;
 
 public class GameExecutor {
     private final Mailer mailer;
@@ -15,11 +19,17 @@ public class GameExecutor {
 
     public void runGame() throws InterruptedException {
         int numberOfAgents = this.arguments.numberOfAgents();
+        double probability = this.arguments.probability();
+        GameType gameType = this.arguments.gameType();
+        int fraction = this.arguments.fraction();
+
+        NetworkGenerator generator = new NetworkGenerator(probability, numberOfAgents);
+        AgentNetwork network = generator.generateNetwork();
 
         Agent[] agents = new Agent[numberOfAgents];
         Thread[] threads = new Thread[numberOfAgents];
         for (int i = 0; i < numberOfAgents; i++) {
-            agents[i] = new Agent(i + 1, mailer);
+            agents[i] = AgentFactory.createAgent(gameType, i, mailer, network.getNeighbors(i), fraction);
             threads[i] = new Thread(agents[i]);
             mailer.subscribe(agents[i].getId());
         }
