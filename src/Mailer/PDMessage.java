@@ -1,5 +1,7 @@
 package Mailer;
 
+import PDAgent.Strategy;
+
 public class PDMessage extends Message {
     private final Strategy action;
 
@@ -10,9 +12,5 @@ public class PDMessage extends Message {
 
     public Strategy getStrategy() {
         return action;
-    }
-
-    public enum Strategy {
-        COOPERATE, DEFECT
     }
 }

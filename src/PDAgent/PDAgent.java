@@ -1,5 +1,6 @@
-package Agent;
+package PDAgent;
 
+import Agent.Agent;
 import Mailer.*;
 
 import java.util.HashMap;
@@ -12,8 +13,8 @@ public class PDAgent extends Agent {
     static final int I_COOPERATE_HE_DEFECT = 0;
     static final int I_DEFECT_HE_COOPERATE = 10;
 
-    private PDMessage.Strategy strategy = PDMessage.Strategy.COOPERATE;
-    private final Map<Integer, PDMessage.Strategy> neighborsStrategies = new HashMap<>();
+    private Strategy strategy = Strategy.COOPERATE;
+    private final Map<Integer, Strategy> neighborsStrategies = new HashMap<>();
     private boolean strategyChanged = true; // To track if the strategy changed in the last round
 
 
@@ -46,7 +47,7 @@ public class PDAgent extends Agent {
 
     public int getPersonalGain() {
         int totalGain = 0;
-        for (PDMessage.Strategy neighborStrategy : neighborsStrategies.values()) {
+        for (Strategy neighborStrategy : neighborsStrategies.values()) {
             totalGain += calculatePayoff(strategy, neighborStrategy);
         }
         return totalGain;
@@ -81,23 +82,21 @@ public class PDAgent extends Agent {
     }
 
     private void pickStrategy() {
-        PDMessage.Strategy bestStrategy = PDMessage.Strategy.DEFECT; // Default to DEFECT as it's the dominant strategy for PD
+        int cooperatePayoff = 0;
+        int defectPayoff = 0;
 
-        for (PDMessage.Strategy neighborStrategy : neighborsStrategies.values()) {
-            if (neighborStrategy == PDMessage.Strategy.COOPERATE) {
-                break;
-            }
+        for (Strategy neighborStrategy : neighborsStrategies.values()) {
+            cooperatePayoff += (neighborStrategy == Strategy.COOPERATE) ? BOTH_COOPERATE : I_COOPERATE_HE_DEFECT;
+            defectPayoff += (neighborStrategy == Strategy.COOPERATE) ? I_DEFECT_HE_COOPERATE : BOTH_DEFECT;
         }
 
-        if (bestStrategy != strategy) {
-            strategyChanged = true;
-            strategy = bestStrategy;
-        } else {
-            strategyChanged = false;
-        }
+        Strategy bestStrategy = (cooperatePayoff > defectPayoff) ? Strategy.COOPERATE : Strategy.DEFECT;
+
+        strategyChanged = (strategy != bestStrategy);
+        strategy = bestStrategy;
     }
 
-    private void sendDecisionToNeighbors(PDMessage.Strategy action) {
+    private void sendDecisionToNeighbors(Strategy action) {
         for (int neighborId : neighbors) {
             mailer.send(neighborId, new PDMessage(getId(), action));
         }
@@ -113,12 +112,12 @@ public class PDAgent extends Agent {
     }
 
 
-    private int calculatePayoff(PDMessage.Strategy myAction, PDMessage.Strategy theirAction) {
-        if (myAction == PDMessage.Strategy.COOPERATE && theirAction == PDMessage.Strategy.COOPERATE) {
+    private int calculatePayoff(Strategy myAction, Strategy theirAction) {
+        if (myAction == Strategy.COOPERATE && theirAction == Strategy.COOPERATE) {
             return BOTH_COOPERATE;
-        } else if (myAction == PDMessage.Strategy.COOPERATE && theirAction == PDMessage.Strategy.DEFECT) {
+        } else if (myAction == Strategy.COOPERATE && theirAction == Strategy.DEFECT) {
             return I_COOPERATE_HE_DEFECT;
-        } else if (myAction == PDMessage.Strategy.DEFECT && theirAction == PDMessage.Strategy.COOPERATE) {
+        } else if (myAction == Strategy.DEFECT && theirAction == Strategy.COOPERATE) {
             return I_DEFECT_HE_COOPERATE;
         } else { // Both defect
             return BOTH_DEFECT;
