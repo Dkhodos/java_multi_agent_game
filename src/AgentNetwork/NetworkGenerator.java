@@ -43,8 +43,8 @@ public class NetworkGenerator {
         List<VarTuple> allPairs = new ArrayList<>();
 
         // Iterate over all possible pairs of agents
-        for (int i = 1; i < numberOfAgents + 1; i++) {
-            for (int j = i + 1; j < numberOfAgents + 1; j++) {
+        for (int i = 0; i < numberOfAgents; i++) {
+            for (int j = i + 1; j < numberOfAgents; j++) {
                 allPairs.add(new VarTuple(i, j));
             }
         }

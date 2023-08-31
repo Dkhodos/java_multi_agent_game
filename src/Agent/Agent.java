@@ -5,18 +5,21 @@ import Mailer.Mailer;
 import java.util.List;
 
 public abstract class Agent implements Runnable {
-    private final int id;
-    private final Mailer mailer;
-    private final List<Integer> neighbors;
+    protected final int agentId;
+    protected final int numberOfAgents;
 
-    protected Agent(int id, Mailer mailer, List<Integer> neighbors){
-        this.id = id;
+    protected final Mailer mailer;
+    protected final List<Integer> neighbors;
+
+    protected Agent(int agentId, int numberOfAgents, Mailer mailer, List<Integer> neighbors){
+        this.agentId = agentId;
+        this.numberOfAgents = numberOfAgents;
         this.mailer = mailer;
         this.neighbors = neighbors;
     }
 
     public int getId(){
-        return id;
+        return agentId;
     }
 
     public void run(){
@@ -25,4 +28,8 @@ public abstract class Agent implements Runnable {
     }
 
     protected abstract void play();
+
+    public abstract boolean hasStrategyChanged();
+
+    public abstract int getPersonalGain();
 }

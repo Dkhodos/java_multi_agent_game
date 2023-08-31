@@ -1,6 +1,6 @@
 import ArgsSerializer.*;
 import Exceptions.*;
-import GameExecutor.GameExecutor;
+import GameExecutor.*;
 import Logger.Logger;
 
 public class Main {
@@ -21,7 +21,9 @@ public class Main {
 
         // run game
         GameExecutor gameExecutor = new GameExecutor(gameArguments);
-        gameExecutor.runGame();
+        GameExecutorResults gameExecutorResults = gameExecutor.runGame();
+
+        gameExecutorResults.print();
     }
 
     public static void printUsage(){

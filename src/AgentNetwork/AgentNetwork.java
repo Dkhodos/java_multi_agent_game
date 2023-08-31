@@ -41,7 +41,7 @@ public class AgentNetwork {
         Map<Integer, List<Integer>> network= new HashMap<>();
 
         // Iterate over all possible pairs of agents
-        for (int i = 1; i < numberOfAgents + 1; i++) {
+        for (int i = 0; i < numberOfAgents; i++) {
             network.put(i, new ArrayList<>());
         }
 

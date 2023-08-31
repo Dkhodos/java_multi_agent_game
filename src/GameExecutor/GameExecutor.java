@@ -1,14 +1,9 @@
 package GameExecutor;
 
-import Agent.Agent;
-import AgentNetwork.AgentNetwork;
-import ArgsSerializer.GameArguments;
-import AgentNetwork.NetworkGenerator;
-import Agent.AgentFactory;
-import ArgsSerializer.GameType;
-import Mailer.Mailer;
-
-import java.util.List;
+import Agent.*;
+import AgentNetwork.*;
+import ArgsSerializer.*;
+import Mailer.*;
 
 public class GameExecutor {
     private final Mailer mailer;
@@ -19,7 +14,7 @@ public class GameExecutor {
         this.arguments = arguments;
     }
 
-    public void runGame() throws InterruptedException {
+    public GameExecutorResults runGame() throws InterruptedException {
         int numberOfAgents = this.arguments.numberOfAgents();
         double probability = this.arguments.probability();
         GameType gameType = this.arguments.gameType();
@@ -29,20 +24,50 @@ public class GameExecutor {
         AgentNetwork network = generator.generateNetwork();
 
         Agent[] agents = new Agent[numberOfAgents];
-        Thread[] threads = new Thread[numberOfAgents];
         for (int i = 0; i < numberOfAgents; i++) {
-            agents[i] = AgentFactory.createAgent(gameType, i, mailer, network.getNeighbors(i), fraction);
-            threads[i] = new Thread(agents[i]);
-            mailer.subscribe(agents[i].getId());
+            agents[i] = AgentFactory.createAgent(gameType, i,numberOfAgents, mailer, network.getNeighbors(i), fraction);
+            mailer.register(i);
         }
 
-        // run agents as threads
-        for (Thread t : threads) {
-            t.start();
+        boolean allAgentsStable;
+        int rounds = 0;
+        do {
+            allAgentsStable = true;
+            rounds++;
+            Thread [] threads = getThreads(agents);
+
+            mailer.send(0, new PlayMessage(0));
+
+            for (Thread t : threads) {
+                t.start();
+            }
+
+            // wait for all agents to terminate
+            for (Thread t : threads) {
+                t.join();
+            }
+
+            for (Agent agent : agents) {
+                if (agent.hasStrategyChanged()) {
+                    allAgentsStable = false;
+                    break;
+                }
+            }
+        } while (!allAgentsStable);
+
+        int totalGain = 0;
+        for (Agent agent : agents) {
+            totalGain += agent.getPersonalGain();
         }
-        // wait for all agents to terminate
-        for (Thread t : threads) {
-            t.join();
+
+        return new GameExecutorResults(totalGain, rounds);
+    }
+
+    private Thread [] getThreads(Agent[] agents){
+        Thread[] threads = new Thread[agents.length];
+        for (int i = 0; i < agents.length; i++) {
+            threads[i] = new Thread(agents[i]);
         }
+        return threads;
     }
 }

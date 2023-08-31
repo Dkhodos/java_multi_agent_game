@@ -14,7 +14,6 @@ public class Mailer {
 	private final HashMap<Integer, List<Message>> map = new HashMap<>();
 	
 	public void send(int receiver, Message m) {
-		
 		List<Message> l = map.get(receiver);
 		
 		synchronized (l) {
@@ -23,7 +22,6 @@ public class Mailer {
 	}
 
 	public Message readOne(int receiver) {
-		
 		List<Message> l = map.get(receiver);
 		if (l.isEmpty()) {
 			return null;
@@ -36,9 +34,7 @@ public class Mailer {
 		}
 	}
 	
-	public void subscribe(int agentId) {
-//		logger.info("Registering a new agent with id " + agentId);
-
+	public void register(int agentId) {
 		List<Message> l= new ArrayList<>();
 		this.map.put(agentId, l);
 	}

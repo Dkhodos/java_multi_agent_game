@@ -10,7 +10,7 @@ class NetworkGeneratorTest {
         AgentNetwork network = generator.generateNetwork();
 
         // Check if the network has the expected number of agents
-        for (int i = 1; i <= 10; i++) {
+        for (int i = 0; i < 10; i++) {
             assertNotNull(network.getNeighbors(i));
         }
     }
@@ -21,7 +21,7 @@ class NetworkGeneratorTest {
         AgentNetwork network = generator.generateNetwork();
 
         // Check if the network has the expected number of agents and no connections
-        for (int i = 1; i <= 10; i++) {
+        for (int i = 0; i < 10; i++) {
             assertTrue(network.getNeighbors(i).isEmpty());
         }
     }
@@ -32,8 +32,8 @@ class NetworkGeneratorTest {
         AgentNetwork network = generator.generateNetwork();
 
         // Check if the network has the expected number of agents and all possible connections
-        for (int i = 1; i <= 10; i++) {
-            for (int j = 1; j <= 10; j++) {
+        for (int i = 0; i < 10; i++) {
+            for (int j = 0; j < 10; j++) {
                 if (i != j) {
                     assertTrue(network.getNeighbors(i).contains(j));
                 }
