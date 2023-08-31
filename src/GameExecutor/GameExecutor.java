@@ -3,14 +3,17 @@ package GameExecutor;
 import Agent.*;
 import AgentNetwork.*;
 import ArgsSerializer.*;
+import Audit.Audit;
 import Mailer.*;
 
 public class GameExecutor {
     private final Mailer mailer;
     private final GameArguments arguments;
+    private final Audit audit;
 
     public GameExecutor(GameArguments arguments){
-        this.mailer = new Mailer();
+        this.audit = new Audit();
+        this.mailer = new Mailer(audit);
         this.arguments = arguments;
     }
 
