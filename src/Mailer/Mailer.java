@@ -9,7 +9,7 @@ import Logger.Logger;
  * used for communication among agents
  */
 public class Mailer {
-	Logger logger = new Logger("AgentExucutor.Mailer");
+	Logger logger = new Logger("Mailer");
 
 	private final HashMap<Integer, List<Message>> map = new HashMap<>();
 	
