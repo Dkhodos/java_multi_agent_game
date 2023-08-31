@@ -13,7 +13,7 @@ public class BoSAgent extends Agent {
     }
 
     @Override
-    public void run() {
+    public void play() {
         // Implement the logic specific to Battle of the Sexes
     }
 }

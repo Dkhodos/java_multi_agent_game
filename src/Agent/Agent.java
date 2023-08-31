@@ -19,6 +19,10 @@ public abstract class Agent implements Runnable {
         return id;
     }
 
-    public abstract void run();
+    public void run(){
+        if(neighbors.isEmpty()) return;
+        play();
+    }
 
+    protected abstract void play();
 }
