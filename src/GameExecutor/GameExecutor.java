@@ -8,6 +8,8 @@ import Agent.AgentFactory;
 import ArgsSerializer.GameType;
 import Mailer.Mailer;
 
+import java.util.List;
+
 public class GameExecutor {
     private final Mailer mailer;
     private final GameArguments arguments;

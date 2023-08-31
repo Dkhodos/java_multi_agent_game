@@ -31,6 +31,12 @@ public class AgentNetwork {
         return this.network.get(agentId);
     }
 
+    public void print(){
+        for (Map.Entry<Integer, List<Integer>> entry: network.entrySet()){
+            System.out.println("Agent " + entry.getKey() + ": " + entry.getValue());
+        }
+    }
+
     private Map<Integer, List<Integer>> getEmptyNetwork() {
         Map<Integer, List<Integer>> network= new HashMap<>();
 

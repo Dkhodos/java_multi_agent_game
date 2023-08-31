@@ -29,6 +29,8 @@ public class NetworkGenerator {
         // lock so no modification can be done
         network.lock();
 
+        network.print();
+
         return network;
     }
 
