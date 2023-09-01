@@ -7,12 +7,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-public class PDAgent extends Agent {
-    static final int BOTH_COOPERATE = 8;
-    static final int BOTH_DEFECT = 5;
-    static final int I_COOPERATE_HE_DEFECT = 0;
-    static final int I_DEFECT_HE_COOPERATE = 10;
-
+public class PDAgent extends Agent implements PBPayoff {
     private final Map<Integer, PDStrategy> neighborsStrategies = new HashMap<>();
     private PDStrategy strategy;
     private boolean strategyChanged = true; // To track if the strategy changed in the last round
@@ -72,17 +67,9 @@ public class PDAgent extends Agent {
         PDStrategy bestStrategy;
 
         if(strategy == null){
-            bestStrategy = random.nextBoolean() ? PDStrategy.COOPERATE : PDStrategy.DEFECT;
+            bestStrategy = pickRandomStrategy(random);
         } else {
-            int cooperatePayoff = 0;
-            int defectPayoff = 0;
-
-            for (PDStrategy neighborStrategy : neighborsStrategies.values()) {
-                cooperatePayoff += (neighborStrategy == PDStrategy.COOPERATE) ? BOTH_COOPERATE : I_COOPERATE_HE_DEFECT;
-                defectPayoff += (neighborStrategy == PDStrategy.COOPERATE) ? I_DEFECT_HE_COOPERATE : BOTH_DEFECT;
-            }
-
-            bestStrategy = (cooperatePayoff > defectPayoff) ? PDStrategy.COOPERATE : PDStrategy.DEFECT;
+            bestStrategy = pickBestStrategy(neighborsStrategies);
         }
 
         strategyChanged = (strategy != bestStrategy);
@@ -105,18 +92,5 @@ public class PDAgent extends Agent {
         }
 
         mailer.send(nextAgentId, new PlayMessage(nextAgentId));
-    }
-
-
-    private int calculatePayoff(PDStrategy myAction, PDStrategy theirAction) {
-        if (myAction == PDStrategy.COOPERATE && theirAction == PDStrategy.COOPERATE) {
-            return BOTH_COOPERATE;
-        } else if (myAction == PDStrategy.COOPERATE && theirAction == PDStrategy.DEFECT) {
-            return I_COOPERATE_HE_DEFECT;
-        } else if (myAction == PDStrategy.DEFECT && theirAction == PDStrategy.COOPERATE) {
-            return I_DEFECT_HE_COOPERATE;
-        } else { // Both defect
-            return BOTH_DEFECT;
-        }
     }
 }
