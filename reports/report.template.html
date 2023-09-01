@@ -19,7 +19,15 @@
             align-items: center;
             text-align: center;
             background: red;
+            position: relative;
             transition: .2s all ease-in-out;
+        }
+
+        .agent .number {
+            position: absolute;
+            top: 4px;
+            left: 4px;
+            font-size: 0.8em;
         }
 
         .game {
@@ -37,12 +45,12 @@
 
         .row {
             display: grid;
-            grid-template-columns: auto 1fr;
+            grid-template-columns: 2fr 1fr;
             gap: 20px;
         }
 
         .messageBoard {
-            height: 391px;
+            height: 400px;
             overflow-y: scroll;
             display: grid;
             grid-column-start: 1;
@@ -51,7 +59,7 @@
         }
 
         .networks {
-            height: 400px;
+            height: 391px;
             overflow-y: scroll;
         }
 

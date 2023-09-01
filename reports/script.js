@@ -39,6 +39,7 @@
         const agentElement = document.createElement('div');
         agentElement.dataset.id = id;
         agentElement.classList.add("agent");
+        agentElement.innerHTML = `<span class="number">${id}</span><span class="strategy"></span>`
         return agentElement;
     }
 
@@ -120,7 +121,7 @@
                 const currentAgent = document.querySelector(`.agent[data-id="${item.sender}"]`)
                 if(currentAgent) currentAgent.classList.add("active");
             } else {
-                const activeAgent = document.querySelector(".agent.active");
+                const activeAgent = document.querySelector(".agent.active .strategy");
                 if(activeAgent) activeAgent.innerHTML = item.strategy;
 
                 const neighborAgent = document.querySelector(`.agent[data-id="${item.receiver}"]`);
