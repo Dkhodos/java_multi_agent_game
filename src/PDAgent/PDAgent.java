@@ -24,11 +24,8 @@ public class PDAgent extends Agent {
 
     @Override
     public void play() {
-        /* 0. Wait for play message*/
-        waitForPlayMessage();
-
-        /* 1. Read decisions from neighbors */
-        readDecisionsFromNeighbors();
+        /* 1. Wait for play message, and read messages for neighbors*/
+        readMessages();
 
         /* 2. Pick the best strategy based on neighbors' decisions */
         pickStrategy();
@@ -53,7 +50,7 @@ public class PDAgent extends Agent {
         return totalGain;
     }
 
-    private void waitForPlayMessage(){
+    private void readMessages(){
         while (true){
             Message message = mailer.readOne(agentId);
             if(message instanceof PlayMessage){
@@ -71,14 +68,6 @@ public class PDAgent extends Agent {
             }
         }
 
-    }
-
-    private void readDecisionsFromNeighbors() {
-        PDMessage message = (PDMessage) mailer.readOne(getId());
-        while (message != null){
-            neighborsStrategies.put(message.getSenderId(), message.getStrategy());
-            message = (PDMessage) mailer.readOne(getId());
-        }
     }
 
     private void pickStrategy() {
