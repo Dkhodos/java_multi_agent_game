@@ -4,10 +4,9 @@ import GameExecutor.*;
 import Logger.Logger;
 
 public class Main {
+    private static final Logger logger = new Logger("Main");
 
     public static void main(String[] args) throws InterruptedException {
-        Logger logger = new Logger("Main");
-
         // extract parameters
         ArgsSerializer argsSerializer = new ArgsSerializer(args);
         GameArguments gameArguments;
@@ -20,19 +19,21 @@ public class Main {
         }
 
         // run game
+        logger.title("Game");
         GameExecutor gameExecutor = new GameExecutor(gameArguments);
         GameExecutorResults gameExecutorResults = gameExecutor.runGame();
 
+        logger.title("Results");
         gameExecutorResults.print();
     }
 
     public static void printUsage(){
-        System.out.println("### For Prisoner’s Dilemma (PD-" + GameType.PD.getValue() +") ###");
-        System.out.println("Usage: java Main <number_of_agents:int> <probability_of_connection:double> "
+        logger.info("### For Prisoner’s Dilemma (PD-" + GameType.PD.getValue() +") ###");
+        logger.info("Usage: java Main <number_of_agents:int> <probability_of_connection:double> "
                 + GameType.PD.getValue());
 
-        System.out.println("### For Battle of the Sexes (BoS-"+GameType.BoS.getValue()+") ###");
-        System.out.println("Usage: java Main <number_of_agents:int> <probability_of_connection:double> "
+        logger.info("### For Battle of the Sexes (BoS-"+GameType.BoS.getValue()+") ###");
+        logger.info("Usage: java Main <number_of_agents:int> <probability_of_connection:double> "
                 + GameType.BoS.getValue() + " <friction:int>");
     }
 }

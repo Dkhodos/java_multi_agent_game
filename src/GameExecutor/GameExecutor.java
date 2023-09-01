@@ -59,6 +59,7 @@ public class GameExecutor {
             int agentId = agent.getId();
 
             reportAgentScore(agentId, personalGain);
+            logger.info("Agent " + agentId + " earned a score of " + personalGain);
             totalGain += personalGain;
 
             if(agent instanceof BoSAgent bosAgent){

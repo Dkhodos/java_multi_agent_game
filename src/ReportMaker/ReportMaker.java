@@ -5,6 +5,7 @@ import Agent.BoSAgent.*;
 import Agent.PDAgent.PDStrategy;
 import ArgsSerializer.*;
 import Audit.*;
+import Logger.Logger;
 import Mailer.*;
 
 import java.io.IOException;
@@ -14,6 +15,7 @@ import java.util.List;
 import java.util.Map;
 
 public class ReportMaker {
+    private static final Logger logger = new Logger("ReportMaker");
 
     final static String reportTemplateFile = System.getProperty("user.dir") + "/reports/report.template.html";
 
@@ -34,6 +36,8 @@ public class ReportMaker {
 
             String reportFile = reportDirectory + "/report" + "." + gameType + ".html";
             Files.write(Paths.get(reportFile), html.getBytes());
+
+            logger.info("Generated HTML report for " + getGameName(gameType) + ": " + reportFile);
         } catch (IOException e) {
             throw new RuntimeException(e);
         }

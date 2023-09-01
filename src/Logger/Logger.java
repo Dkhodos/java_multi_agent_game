@@ -19,7 +19,7 @@ public class Logger {
     }
 
     public void title(String msg){
-        printMessage(TITLE_PURPLE + BOLD, "### " +msg + " ###");
+        System.out.println(TITLE_PURPLE + BOLD + "### " + name + ": " +msg + " ###" + RESET);
     }
 
     public  void warning(String msg){
