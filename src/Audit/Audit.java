@@ -3,7 +3,8 @@ package Audit;
 import Mailer.Message;
 import Mailer.PDMessage;
 import Mailer.PlayMessage;
-import PDAgent.Strategy;
+import PDAgent.PDStrategy;
+import PDAgent.PDStrategy;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -26,7 +27,7 @@ public class Audit {
 
         for (RecordedMessage message: recordedMessages){
             if(message.message() instanceof PDMessage){
-                Strategy strategy = ((PDMessage) message.message()).getStrategy();
+                PDStrategy strategy = ((PDMessage) message.message()).getStrategy();
                 string.append(String.format(OBJECT_TEMPLATE, "PDMessage", message.sender(),message.receiver(), String.valueOf(strategy)));
             } else if(message.message() instanceof PlayMessage){
                 string.append(String.format(OBJECT_TEMPLATE, "PlayMessage", message.sender(),message.receiver(), ""));

@@ -1,5 +1,5 @@
 package PDAgent;
 
-public enum Strategy {
+public enum PDStrategy {
     COOPERATE, DEFECT
 }

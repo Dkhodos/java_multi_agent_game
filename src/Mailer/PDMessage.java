@@ -1,16 +1,17 @@
 package Mailer;
 
-import PDAgent.Strategy;
+import PDAgent.PDStrategy;
+import PDAgent.PDStrategy;
 
 public class PDMessage extends Message {
-    private final Strategy action;
+    private final PDStrategy action;
 
-    public PDMessage(int agentId, Strategy action) {
+    public PDMessage(int agentId, PDStrategy action) {
         super(agentId);
         this.action = action;
     }
 
-    public Strategy getStrategy() {
+    public PDStrategy getStrategy() {
         return action;
     }
 }

@@ -1,6 +1,7 @@
 package Agent;
 
 import ArgsSerializer.GameType;
+import BoSAgent.BoSAgent;
 import Mailer.Mailer;
 import PDAgent.PDAgent;
 

@@ -3,6 +3,7 @@ package Agent;
 import Mailer.Mailer;
 
 import java.util.List;
+import java.util.Random;
 
 public abstract class Agent implements Runnable {
     protected final int agentId;
@@ -10,6 +11,8 @@ public abstract class Agent implements Runnable {
 
     protected final Mailer mailer;
     protected final List<Integer> neighbors;
+
+    static protected final Random random = new Random();
 
     protected Agent(int agentId, int numberOfAgents, Mailer mailer, List<Integer> neighbors){
         this.agentId = agentId;

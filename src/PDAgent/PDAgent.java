@@ -1,6 +1,7 @@
 package PDAgent;
 
 import Agent.Agent;
+import BoSAgent.BosStrategy;
 import Mailer.*;
 
 import java.util.HashMap;
@@ -13,10 +14,9 @@ public class PDAgent extends Agent {
     static final int BOTH_DEFECT = 5;
     static final int I_COOPERATE_HE_DEFECT = 0;
     static final int I_DEFECT_HE_COOPERATE = 10;
-    static private  final Random random = new Random();
 
-    private final Map<Integer, Strategy> neighborsStrategies = new HashMap<>();
-    private Strategy strategy = Strategy.COOPERATE;
+    private final Map<Integer, PDStrategy> neighborsStrategies = new HashMap<>();
+    private PDStrategy strategy;
     private boolean strategyChanged = true; // To track if the strategy changed in the last round
 
     public PDAgent(int id,int numberOfAgents, Mailer mailer, List<Integer> neighbors) {
@@ -25,7 +25,7 @@ public class PDAgent extends Agent {
 
     @Override
     public void play() {
-        /* 1. Wait for play message, and read messages for neighbors*/
+        /* 1. Wait for play message, and read messages for neighbors */
         readMessages();
 
         /* 2. Pick the best strategy based on neighbors' decisions */
@@ -45,7 +45,7 @@ public class PDAgent extends Agent {
 
     public int getPersonalGain() {
         int totalGain = 0;
-        for (Strategy neighborStrategy : neighborsStrategies.values()) {
+        for (PDStrategy neighborStrategy : neighborsStrategies.values()) {
             totalGain += calculatePayoff(strategy, neighborStrategy);
         }
         return totalGain;
@@ -72,27 +72,27 @@ public class PDAgent extends Agent {
     }
 
     private void pickStrategy() {
-        Strategy bestStrategy;
+        PDStrategy bestStrategy;
 
-        if(neighborsStrategies.size() == 0){
-            bestStrategy = random.nextBoolean() ? Strategy.COOPERATE : Strategy.DEFECT;
+        if(strategy == null){
+            bestStrategy = random.nextBoolean() ? PDStrategy.COOPERATE : PDStrategy.DEFECT;
         } else {
             int cooperatePayoff = 0;
             int defectPayoff = 0;
 
-            for (Strategy neighborStrategy : neighborsStrategies.values()) {
-                cooperatePayoff += (neighborStrategy == Strategy.COOPERATE) ? BOTH_COOPERATE : I_COOPERATE_HE_DEFECT;
-                defectPayoff += (neighborStrategy == Strategy.COOPERATE) ? I_DEFECT_HE_COOPERATE : BOTH_DEFECT;
+            for (PDStrategy neighborStrategy : neighborsStrategies.values()) {
+                cooperatePayoff += (neighborStrategy == PDStrategy.COOPERATE) ? BOTH_COOPERATE : I_COOPERATE_HE_DEFECT;
+                defectPayoff += (neighborStrategy == PDStrategy.COOPERATE) ? I_DEFECT_HE_COOPERATE : BOTH_DEFECT;
             }
 
-            bestStrategy = (cooperatePayoff > defectPayoff) ? Strategy.COOPERATE : Strategy.DEFECT;
+            bestStrategy = (cooperatePayoff > defectPayoff) ? PDStrategy.COOPERATE : PDStrategy.DEFECT;
         }
 
         strategyChanged = (strategy != bestStrategy);
         strategy = bestStrategy;
     }
 
-    private void sendDecisionToNeighbors(Strategy action) {
+    private void sendDecisionToNeighbors(PDStrategy action) {
         for (int neighborId : neighbors) {
             mailer.send(neighborId, new PDMessage(getId(), action));
         }
@@ -108,12 +108,12 @@ public class PDAgent extends Agent {
     }
 
 
-    private int calculatePayoff(Strategy myAction, Strategy theirAction) {
-        if (myAction == Strategy.COOPERATE && theirAction == Strategy.COOPERATE) {
+    private int calculatePayoff(PDStrategy myAction, PDStrategy theirAction) {
+        if (myAction == PDStrategy.COOPERATE && theirAction == PDStrategy.COOPERATE) {
             return BOTH_COOPERATE;
-        } else if (myAction == Strategy.COOPERATE && theirAction == Strategy.DEFECT) {
+        } else if (myAction == PDStrategy.COOPERATE && theirAction == PDStrategy.DEFECT) {
             return I_COOPERATE_HE_DEFECT;
-        } else if (myAction == Strategy.DEFECT && theirAction == Strategy.COOPERATE) {
+        } else if (myAction == PDStrategy.DEFECT && theirAction == PDStrategy.COOPERATE) {
             return I_DEFECT_HE_COOPERATE;
         } else { // Both defect
             return BOTH_DEFECT;
