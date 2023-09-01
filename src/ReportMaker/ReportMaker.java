@@ -12,7 +12,8 @@ import java.nio.file.Paths;
 public class ReportMaker {
     final static String reportTemplateFile = System.getProperty("user.dir") + "/reports/report.template.html";
 
-    public void generateReport(int numberOfAgents, GameType gameType, AgentNetwork network, Audit audit, BoSAgentSex[] bosAgentsSex){
+    public void generateReport(int numberOfAgents, GameType gameType,int fraction, double probability,
+                               AgentNetwork network, Audit audit, BoSAgentSex[] bosAgentsSex){
         try {
             String html = new String(Files.readAllBytes(Paths.get(reportTemplateFile)));
 
@@ -21,6 +22,8 @@ public class ReportMaker {
             html = html.replace("{{connections}}", network.toJavaScriptJsonString());
             html = html.replace("{{numberOfAgents}}", String.valueOf(numberOfAgents));
             html = html.replace("{{agentsSex}}", convertAgentSexArrayToJavaScriptArray(bosAgentsSex));
+            html = html.replace("{{fraction}}", String.valueOf(fraction));
+            html = html.replace("{{probability}}", String.valueOf(probability));
 
             String reportDirectory = System.getProperty("user.dir") + "/reports";
 
@@ -50,10 +53,10 @@ public class ReportMaker {
     private String getGameName(GameType gameType){
         switch (gameType){
             case PD -> {
-                return "Prisoner Dilemma";
+                return "Prisoners Dilemma";
             }
             case BoS ->  {
-                return "Battle of the sexes";
+                return "Battle of The Sexes";
             }
         }
         return "Unknown";

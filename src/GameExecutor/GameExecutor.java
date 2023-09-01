@@ -15,6 +15,8 @@ public class GameExecutor {
     private final GameArguments arguments;
     private final Audit audit;
 
+    private static final int GAME_MASTER_ID = -1;
+
     public GameExecutor(GameArguments arguments){
         this.audit = new Audit();
         this.mailer = new Mailer(audit);
@@ -42,10 +44,13 @@ public class GameExecutor {
         }
 
         boolean allAgentsStable;
-        int rounds = 0;
+        int rounds = -1;
         do {
             allAgentsStable = true;
+
             rounds++;
+            audit.recordMessage(GAME_MASTER_ID, GAME_MASTER_ID, new RoundUpdateMessage(GAME_MASTER_ID, rounds));
+
             Thread [] threads = getThreads(agents);
 
             mailer.send(0, new PlayMessage(0));
@@ -70,16 +75,22 @@ public class GameExecutor {
         int totalGain = 0;
         BoSAgentSex[] agentSexes = new BoSAgentSex[numberOfAgents];
         for (Agent agent : agents) {
-            totalGain += agent.getPersonalGain();
+            int personalGain = agent.getPersonalGain();
+            int agentId = agent.getId();
+
+            audit.recordMessage(GAME_MASTER_ID, agentId, new AgentScoreMessage(GAME_MASTER_ID, personalGain));
+            totalGain += personalGain;
 
             if(agent instanceof BoSAgent bosAgent){
                 agentSexes[bosAgent.getId()] = bosAgent.getAgentSex();
             }
         }
 
+        audit.recordMessage(GAME_MASTER_ID, GAME_MASTER_ID, new TotalScoreMessage(GAME_MASTER_ID, totalGain));
+
         ReportMaker reportMaker = new ReportMaker();
 
-        reportMaker.generateReport(numberOfAgents, gameType, network, audit, agentSexes);
+        reportMaker.generateReport(numberOfAgents, gameType, fraction, probability, network, audit, agentSexes);
 
         return new GameExecutorResults(totalGain, rounds);
     }

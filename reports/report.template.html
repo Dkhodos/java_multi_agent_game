@@ -4,119 +4,7 @@
     <meta charset="UTF-8">
     <title>Agents Report: {{gameName}}</title>
     <link href="https://fonts.googleapis.com/css2?family=Assistant:wght@200;300;400;500;600;700;800&display=swap" rel="stylesheet">
-    <style>
-        body * {
-            font-family: 'Assistant', sans-serif;
-        }
-
-        h1{
-            display: flex;
-            justify-content: center;
-            align-items: center;
-        }
-
-        .board {
-            display: grid;
-            row-gap: 20px;
-        }
-
-        .agent {
-            margin: 8px;
-            padding: 8px;
-            width: 80px;
-            height: 40px;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            text-align: center;
-            background: red;
-            position: relative;
-            transition: .2s all ease-in-out;
-        }
-
-        .agent .number {
-            font-weight: bold;
-            position: absolute;
-            top: 0;
-            left: 0;
-            font-size: 0.6em;
-            min-width: 12px;
-            height: 12px;
-            text-align: center;
-            display: block;
-            background: white;
-            border-left: 1px solid red;
-            border-top: 1px solid red;
-            transition: .2s all ease-in-out;
-        }
-
-        .agent.active .number{
-            border-left: 1px solid lightgreen;
-            border-top: 1px solid lightgreen;
-        }
-
-        .agent.neighbor .number{
-            border-left: 1px solid lightblue;
-            border-top: 1px solid lightblue;
-        }
-
-        .game {
-            grid-template-columns: repeat(5, 1fr);
-            display: grid;
-        }
-
-        .agent.active {
-            background: lightgreen;
-        }
-
-        .agent.neighbor {
-            background: lightblue;
-        }
-
-        .row {
-            display: grid;
-            grid-template-columns: 2fr 1fr;
-            gap: 20px;
-        }
-
-        .messageBoard {
-            height: 400px;
-            overflow-y: scroll;
-            display: grid;
-            grid-column-start: 1;
-            grid-column-end: 3;
-            scroll-behavior: smooth;
-        }
-
-        .networks {
-            height: 391px;
-            overflow-y: scroll;
-        }
-
-        table {
-            width: 100%;
-            border-collapse: collapse;
-        }
-
-        thead {
-            background-color: #f5f5f5;
-            font-weight: bold;
-            text-transform: capitalize;
-        }
-
-        th, td {
-            border: 1px solid #e0e0e0;
-            padding: 8px;
-            text-align: left;
-        }
-
-        thead{
-           background-color: #f5f5f5;
-           position: sticky;
-           top: 0;
-           z-index: 1;
-        }
-    </style>
+    <link href="./styles.css" rel="stylesheet">
     <script>
         var data = {{data}};
     </script>
@@ -124,6 +12,8 @@
         var connections = {{connections}};
         var numberOfAgents = {{numberOfAgents}};
         var agentsSex = {{agentsSex}};
+        var fraction = {{fraction}};
+        var probability = {{probability}};
     </script>
 </head>
 <body>

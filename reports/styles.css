@@ -1,0 +1,118 @@
+body * {
+    font-family: 'Assistant', sans-serif;
+}
+
+h1{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.board {
+    display: grid;
+    row-gap: 20px;
+}
+
+.agent {
+    margin: 8px;
+    padding: 8px;
+    width: 80px;
+    height: 40px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    background: red;
+    position: relative;
+    transition: .2s all ease-in-out;
+}
+
+.agent .number {
+    font-weight: bold;
+    position: absolute;
+    top: 0;
+    left: 0;
+    font-size: 0.6em;
+    min-width: 12px;
+    height: 12px;
+    text-align: center;
+    display: block;
+    background: white;
+    border-left: 1px solid red;
+    border-top: 1px solid red;
+    transition: .2s all ease-in-out;
+}
+
+.agent.active .number{
+    border-left: 1px solid lightgreen;
+    border-top: 1px solid lightgreen;
+}
+
+.agent.neighbor .number{
+    border-left: 1px solid lightblue;
+    border-top: 1px solid lightblue;
+}
+
+.game {
+    grid-template-columns: repeat(5, 1fr);
+    display: grid;
+}
+
+.agent.active {
+    background: lightgreen;
+}
+
+.agent.neighbor {
+    background: lightblue;
+}
+
+.row-1{
+    display: grid;
+    grid-template-columns: 1fr 0.5fr;
+    gap: 20px;
+}
+
+.row-2{
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 20px;
+    height: calc(100vh - 410px);
+}
+
+.messageBoard {
+    overflow-y: scroll;
+    display: grid;
+    scroll-behavior: smooth;
+}
+
+.networks {
+    overflow-y: scroll;
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+thead {
+    background-color: #f5f5f5;
+    font-weight: bold;
+    text-transform: capitalize;
+}
+
+th, td {
+    border: 1px solid #e0e0e0;
+    padding: 8px;
+    text-align: left;
+}
+
+thead{
+   background-color: #f5f5f5;
+   position: sticky;
+   top: 0;
+   z-index: 1;
+}
+
+.game-state {
+    margin-right: 60px;
+}

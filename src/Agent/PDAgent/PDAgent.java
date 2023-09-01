@@ -30,7 +30,7 @@ public class PDAgent extends Agent {
         pickStrategy();
 
         /* 3. Send my decision to my neighbors */
-        sendDecisionToNeighbors(strategy);
+        sendDecisionToNeighbors();
 
         /* 4. trigger next agent */
         triggerNextAgent();
@@ -61,7 +61,7 @@ public class PDAgent extends Agent {
             }
 
             try {
-                Thread.sleep(100);
+                Thread.sleep(50);
             } catch (InterruptedException e) {
                 throw new RuntimeException(e);
             }
@@ -89,9 +89,12 @@ public class PDAgent extends Agent {
         strategy = bestStrategy;
     }
 
-    private void sendDecisionToNeighbors(PDStrategy action) {
+    private void sendDecisionToNeighbors() {
+        // no point in sending data if nothing changed
+        if(!strategyChanged) return;
+
         for (int neighborId : neighbors) {
-            mailer.send(neighborId, new PDMessage(getId(), action));
+            mailer.send(neighborId, new PDMessage(getId(), strategy));
         }
     }
 

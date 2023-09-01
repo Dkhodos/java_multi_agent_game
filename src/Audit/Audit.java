@@ -1,17 +1,14 @@
 package Audit;
 
 import Agent.BoSAgent.BoSStrategy;
-import Mailer.BoSMessage;
-import Mailer.Message;
-import Mailer.PDMessage;
-import Mailer.PlayMessage;
+import Mailer.*;
 import Agent.PDAgent.PDStrategy;
 
 import java.util.ArrayList;
 import java.util.List;
 
 public class Audit {
-    static String OBJECT_TEMPLATE = "{type: \"%s\", sender: \"%d\", receiver: \"%d\", strategy: \"%s\"},";
+    static String OBJECT_TEMPLATE = "{type: \"%s\", sender: \"%d\", receiver: \"%d\", meta: \"%s\"},";
     private final List<RecordedMessage> recordedMessages = new ArrayList<>();
 
     public void recordMessage(int sender, int receiver, Message message) {
@@ -21,15 +18,28 @@ public class Audit {
         StringBuilder string = new StringBuilder();
         string.append("[");
 
-        for (RecordedMessage message: recordedMessages){
-            if(message.message() instanceof PDMessage){
-                PDStrategy strategy = ((PDMessage) message.message()).getStrategy();
-                string.append(String.format(OBJECT_TEMPLATE, "PDMessage", message.sender(),message.receiver(), strategy));
-            } else if(message.message() instanceof PlayMessage){
-                string.append(String.format(OBJECT_TEMPLATE, "PlayMessage", message.sender(),message.receiver(), ""));
-            } else if (message.message() instanceof BoSMessage) {
-                BoSStrategy strategy = ((BoSMessage) message.message()).getStrategy();
-                string.append(String.format(OBJECT_TEMPLATE, "BoSMessage", message.sender(),message.receiver(), strategy));
+        for (RecordedMessage recordedMessage: recordedMessages){
+            Message message = recordedMessage.message();
+            int sender = recordedMessage.sender();
+            int receiver = recordedMessage.receiver();
+
+            if(message instanceof PDMessage){
+                PDStrategy strategy = ((PDMessage) message).getStrategy();
+                string.append(String.format(OBJECT_TEMPLATE, "PDMessage", sender,receiver, strategy));
+            } else if(message instanceof PlayMessage){
+                string.append(String.format(OBJECT_TEMPLATE, "PlayMessage", sender,receiver, ""));
+            } else if (message instanceof BoSMessage) {
+                BoSStrategy strategy = ((BoSMessage) message).getStrategy();
+                string.append(String.format(OBJECT_TEMPLATE, "BoSMessage", sender,receiver, strategy));
+            } else if (message instanceof RoundUpdateMessage){
+                String round = String.valueOf(((RoundUpdateMessage) message).getRound());
+                string.append(String.format(OBJECT_TEMPLATE, "RoundMessage", sender,receiver, round));
+            } else if(message instanceof TotalScoreMessage){
+                String score = String.valueOf(((TotalScoreMessage) message).getScore());
+                string.append(String.format(OBJECT_TEMPLATE, "TotalScoreMessage", sender,receiver, score));
+            } else if(message instanceof AgentScoreMessage){
+                String score = String.valueOf(((AgentScoreMessage) message).getScore());
+                string.append(String.format(OBJECT_TEMPLATE, "AgentScoreMessage", sender,receiver, score));
             }
         }
 
