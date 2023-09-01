@@ -4,6 +4,7 @@ import Agent.*;
 import AgentNetwork.*;
 import ArgsSerializer.*;
 import Audit.Audit;
+import BoSAgent.*;
 import Mailer.*;
 import ReportMaker.ReportMaker;
 
@@ -28,8 +29,13 @@ public class GameExecutor {
         AgentNetwork network = generator.generateNetwork();
 
         Agent[] agents = new Agent[numberOfAgents];
+        int createdAgents = 0;
+
         for (int i = 0; i < numberOfAgents; i++) {
-            agents[i] = AgentFactory.createAgent(gameType, i,numberOfAgents, mailer, network.getNeighbors(i), fraction);
+            BoSAgentSex bosAgentSex = createdAgents < fraction ? BoSAgentSex.WIFE : BoSAgentSex.HUSBAND;
+            createdAgents++;
+
+            agents[i] = AgentFactory.createAgent(gameType, i, numberOfAgents, mailer, network.getNeighbors(i), bosAgentSex);
             mailer.register(i);
         }
 
@@ -60,12 +66,18 @@ public class GameExecutor {
         } while (!allAgentsStable);
 
         int totalGain = 0;
+        BoSAgentSex[] agentSexes = new BoSAgentSex[numberOfAgents];
         for (Agent agent : agents) {
             totalGain += agent.getPersonalGain();
+
+            if(agent instanceof BoSAgent bosAgent){
+                agentSexes[bosAgent.getId()] = bosAgent.getAgentSex();
+            }
         }
 
         ReportMaker reportMaker = new ReportMaker();
-        reportMaker.generateReport(numberOfAgents, gameType, network, audit);
+
+        reportMaker.generateReport(numberOfAgents, gameType, network, audit, agentSexes);
 
         return new GameExecutorResults(totalGain, rounds);
     }

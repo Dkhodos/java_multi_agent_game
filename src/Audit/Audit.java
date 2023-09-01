@@ -1,5 +1,7 @@
 package Audit;
 
+import BoSAgent.BoSStrategy;
+import Mailer.BoSMessage;
 import Mailer.Message;
 import Mailer.PDMessage;
 import Mailer.PlayMessage;
@@ -31,6 +33,9 @@ public class Audit {
                 string.append(String.format(OBJECT_TEMPLATE, "PDMessage", message.sender(),message.receiver(), String.valueOf(strategy)));
             } else if(message.message() instanceof PlayMessage){
                 string.append(String.format(OBJECT_TEMPLATE, "PlayMessage", message.sender(),message.receiver(), ""));
+            } else if (message.message() instanceof BoSMessage) {
+                BoSStrategy strategy = ((BoSMessage) message.message()).getStrategy();
+                string.append(String.format(OBJECT_TEMPLATE, "BoSMessage", message.sender(),message.receiver(), String.valueOf(strategy)));
             }
         }
 

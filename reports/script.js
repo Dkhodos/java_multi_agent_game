@@ -12,7 +12,7 @@
         game.className = 'game';
 
         for (let i = 0; i < numberOfAgents; i++) {
-            game.appendChild(drawAgent(i));
+            game.appendChild(drawAgent(i, !!agentsSex.length > 0 ? agentsSex[i] : null));
         }
 
         const networks = drawNetwork();
@@ -35,11 +35,11 @@
         root.appendChild(board)
     }
 
-    function drawAgent(id){
+    function drawAgent(id, agentSex = null){
         const agentElement = document.createElement('div');
         agentElement.dataset.id = id;
         agentElement.classList.add("agent");
-        agentElement.innerHTML = `<span class="number">${id}</span><span class="strategy"></span>`
+        agentElement.innerHTML = `<span class="number">${id}${!!agentSex ? ', ' + agentSex : ''}</span><span class="strategy"></span>`
         return agentElement;
     }
 

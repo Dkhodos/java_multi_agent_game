@@ -1,13 +1,11 @@
 package PDAgent;
 
 import Agent.Agent;
-import BoSAgent.BosStrategy;
 import Mailer.*;
 
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Random;
 
 public class PDAgent extends Agent {
     static final int BOTH_COOPERATE = 8;
@@ -68,7 +66,6 @@ public class PDAgent extends Agent {
                 throw new RuntimeException(e);
             }
         }
-
     }
 
     private void pickStrategy() {
