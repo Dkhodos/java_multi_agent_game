@@ -23,6 +23,7 @@ public class Main {
         GameExecutor gameExecutor = new GameExecutor(gameArguments);
         GameExecutorResults gameExecutorResults = gameExecutor.runGame();
 
+        // conclude results
         logger.title("Results");
         gameExecutorResults.print();
     }
