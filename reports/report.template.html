@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Agents Report: {{gameName}}</title>
+    <style>
+        .board {
+            display: grid;
+            row-gap: 20px;
+        }
+
+        .agent {
+            margin: 8px;
+            padding: 8px;
+            width: 80px;
+            height: 40px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            background: red;
+            transition: .2s all ease-in-out;
+        }
+
+        .game {
+            grid-template-columns: repeat(5, 1fr);
+            display: grid;
+        }
+
+        .agent.active {
+            background: green;
+        }
+
+        .agent.neighbor {
+            background: lightblue;
+        }
+
+        .row {
+            display: grid;
+            grid-template-columns: auto 1fr;
+            gap: 20px;
+        }
+
+        .messageBoard {
+            height: 391px;
+            overflow-y: scroll;
+            display: grid;
+            grid-column-start: 1;
+            grid-column-end: 3;
+            scroll-behavior: smooth;
+        }
+
+        .networks {
+            height: 400px;
+            overflow-y: scroll;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        thead {
+            background-color: #f5f5f5;
+        }
+
+        th, td {
+            border: 1px solid #e0e0e0;
+            padding: 8px;
+            text-align: left;
+        }
+
+        thead{
+           background-color: #f5f5f5;
+           position: sticky;
+           top: 0;
+           z-index: 1;
+        }
+    </style>
+    <script>
+        var data = {{data}};
+    </script>
+    <script>
+        var connections = {{connections}};
+        var numberOfAgents = {{numberOfAgents}};
+    </script>
+</head>
+<body>
+    <h1>Agents Report: {{gameName}}</h1>
+    <div id="root"></div>
+    <script src="./script.js"></script>
+</body>
+</html>

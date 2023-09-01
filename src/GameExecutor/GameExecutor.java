@@ -5,6 +5,7 @@ import AgentNetwork.*;
 import ArgsSerializer.*;
 import Audit.Audit;
 import Mailer.*;
+import ReportMaker.ReportMaker;
 
 public class GameExecutor {
     private final Mailer mailer;
@@ -62,6 +63,9 @@ public class GameExecutor {
         for (Agent agent : agents) {
             totalGain += agent.getPersonalGain();
         }
+
+        ReportMaker reportMaker = new ReportMaker();
+        reportMaker.generateReport(numberOfAgents, gameType, network, audit);
 
         return new GameExecutorResults(totalGain, rounds);
     }
