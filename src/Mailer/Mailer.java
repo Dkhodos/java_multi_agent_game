@@ -3,15 +3,12 @@ package Mailer;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
-import Logger.Logger;
 import Audit.*;
 
 /*
  * used for communication among agents
  */
 public class Mailer {
-	Logger logger = new Logger("Mailer");
-
 	private final HashMap<Integer, List<Message>> map = new HashMap<>();
 	private final Audit audit;
 
