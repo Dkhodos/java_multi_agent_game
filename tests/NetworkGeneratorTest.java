@@ -1,7 +1,8 @@
 
+import Agent.AgentNetwork.AgentNetwork;
+import Agent.AgentNetwork.NetworkGenerator;
 import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
-import AgentNetwork.*;
 
 class NetworkGeneratorTest {
     @Test

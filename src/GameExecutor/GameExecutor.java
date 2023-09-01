@@ -1,10 +1,12 @@
 package GameExecutor;
 
 import Agent.*;
-import AgentNetwork.*;
+import Agent.AgentNetwork.AgentNetwork;
+import Agent.AgentNetwork.NetworkGenerator;
+import Agent.BoSAgent.BoSAgent;
+import Agent.BoSAgent.BoSAgentSex;
 import ArgsSerializer.*;
 import Audit.Audit;
-import BoSAgent.*;
 import Mailer.*;
 import ReportMaker.ReportMaker;
 

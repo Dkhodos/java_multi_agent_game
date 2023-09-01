@@ -1,9 +1,10 @@
 package Agent;
 
+import Agent.BoSAgent.BoSAgent;
+import Agent.BoSAgent.BoSAgentSex;
 import ArgsSerializer.GameType;
-import BoSAgent.*;
 import Mailer.Mailer;
-import PDAgent.PDAgent;
+import Agent.PDAgent.PDAgent;
 
 import java.util.List;
 

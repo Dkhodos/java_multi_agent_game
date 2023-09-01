@@ -1,15 +1,13 @@
 package ReportMaker;
 
-import AgentNetwork.*;
+import Agent.AgentNetwork.*;
+import Agent.BoSAgent.*;
 import ArgsSerializer.*;
 import Audit.*;
-import BoSAgent.BoSAgentSex;
-import Logger.Logger;
 
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
-import java.util.Arrays;
 
 public class ReportMaker {
     final static String reportTemplateFile = System.getProperty("user.dir") + "/reports/report.template.html";

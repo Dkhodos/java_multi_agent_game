@@ -1,4 +1,4 @@
-package PDAgent;
+package Agent.PDAgent;
 
 import Agent.Agent;
 import Mailer.*;

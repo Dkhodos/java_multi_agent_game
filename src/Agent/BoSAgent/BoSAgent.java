@@ -1,8 +1,7 @@
-package BoSAgent;
+package Agent.BoSAgent;
 
 import Agent.Agent;
 import Mailer.*;
-import PDAgent.PDStrategy;
 
 import java.util.HashMap;
 import java.util.List;

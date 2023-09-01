@@ -1,4 +1,4 @@
-package BoSAgent;
+package Agent.BoSAgent;
 
 public enum BoSAgentSex {
     WIFE,

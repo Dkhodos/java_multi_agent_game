@@ -1,6 +1,7 @@
 package Mailer;
 
-import BoSAgent.*;
+import Agent.BoSAgent.BoSAgentSex;
+import Agent.BoSAgent.BoSStrategy;
 
 public class BoSMessage extends Message {
     private final BoSStrategy action;
