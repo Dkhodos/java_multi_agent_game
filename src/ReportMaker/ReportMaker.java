@@ -16,7 +16,7 @@ public class ReportMaker {
         try {
             String html = new String(Files.readAllBytes(Paths.get(reportTemplateFile)));
 
-            html = html.replace("{{gameName}}", gameType.toString());
+            html = html.replace("{{gameName}}", getGameName(gameType));
             html = html.replace("{{data}}", audit.toJavaScriptJsonString());
             html = html.replace("{{connections}}", network.toJavaScriptJsonString());
             html = html.replace("{{numberOfAgents}}", String.valueOf(numberOfAgents));
@@ -45,5 +45,17 @@ public class ReportMaker {
         }
         builder.append("]");
         return builder.toString();
+    }
+
+    private String getGameName(GameType gameType){
+        switch (gameType){
+            case PD -> {
+                return "Prisoner Dilemma";
+            }
+            case BoS ->  {
+                return "Battle of the sexes";
+            }
+        }
+        return "Unknown";
     }
 }
