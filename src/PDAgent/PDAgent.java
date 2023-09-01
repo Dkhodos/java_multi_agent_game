@@ -6,6 +6,7 @@ import Mailer.*;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Random;
 
 public class PDAgent extends Agent {
     static final int BOTH_COOPERATE = 8;
@@ -16,6 +17,8 @@ public class PDAgent extends Agent {
     private Strategy strategy = Strategy.COOPERATE;
     private final Map<Integer, Strategy> neighborsStrategies = new HashMap<>();
     private boolean strategyChanged = true; // To track if the strategy changed in the last round
+
+    private  final Random random = new Random();
 
 
     public PDAgent(int id,int numberOfAgents, Mailer mailer, List<Integer> neighbors) {
@@ -71,15 +74,21 @@ public class PDAgent extends Agent {
     }
 
     private void pickStrategy() {
-        int cooperatePayoff = 0;
-        int defectPayoff = 0;
+        Strategy bestStrategy;
 
-        for (Strategy neighborStrategy : neighborsStrategies.values()) {
-            cooperatePayoff += (neighborStrategy == Strategy.COOPERATE) ? BOTH_COOPERATE : I_COOPERATE_HE_DEFECT;
-            defectPayoff += (neighborStrategy == Strategy.COOPERATE) ? I_DEFECT_HE_COOPERATE : BOTH_DEFECT;
+        if(neighborsStrategies.size() == 0){
+            bestStrategy = random.nextBoolean() ? Strategy.COOPERATE : Strategy.DEFECT;
+        } else {
+            int cooperatePayoff = 0;
+            int defectPayoff = 0;
+
+            for (Strategy neighborStrategy : neighborsStrategies.values()) {
+                cooperatePayoff += (neighborStrategy == Strategy.COOPERATE) ? BOTH_COOPERATE : I_COOPERATE_HE_DEFECT;
+                defectPayoff += (neighborStrategy == Strategy.COOPERATE) ? I_DEFECT_HE_COOPERATE : BOTH_DEFECT;
+            }
+
+            bestStrategy = (cooperatePayoff > defectPayoff) ? Strategy.COOPERATE : Strategy.DEFECT;
         }
-
-        Strategy bestStrategy = (cooperatePayoff > defectPayoff) ? Strategy.COOPERATE : Strategy.DEFECT;
 
         strategyChanged = (strategy != bestStrategy);
         strategy = bestStrategy;

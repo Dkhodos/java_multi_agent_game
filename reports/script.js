@@ -1,5 +1,5 @@
 (async () => {
-    const SPEED = 500;
+    const SPEED = 100;
 
     function drawBoard(){
         const root = document.getElementById('root');
