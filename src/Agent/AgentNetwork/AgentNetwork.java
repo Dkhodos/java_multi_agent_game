@@ -1,13 +1,14 @@
 package Agent.AgentNetwork;
 
+import Logger.Logger;
+
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 public class AgentNetwork {
-    static String OBJECT_TEMPLATE = "%s: [%s],";
-
+    private static final Logger logger = new Logger("AgentNetwork");
     private final int numberOfAgents;
     private final Map<Integer, List<Integer>> network;
 
@@ -35,8 +36,12 @@ public class AgentNetwork {
 
     public void print(){
         for (Map.Entry<Integer, List<Integer>> entry: network.entrySet()){
-            System.out.println("Agent " + entry.getKey() + ": " + entry.getValue());
+            logger.info("Agent " + entry.getKey() + ": " + entry.getValue());
         }
+    }
+
+    public Map<Integer, List<Integer>> getNetwork(){
+        return network;
     }
 
     private Map<Integer, List<Integer>> getEmptyNetwork() {
@@ -48,26 +53,5 @@ public class AgentNetwork {
         }
 
         return network;
-    }
-
-    public String toJavaScriptJsonString(){
-        StringBuilder string = new StringBuilder();
-        string.append("{");
-
-        for (Map.Entry<Integer, List<Integer>> entry: network.entrySet()){
-            int agentId = entry.getKey();
-            List<Integer> neighbors = entry.getValue();
-
-            StringBuilder neighborsString = new StringBuilder();
-            for(int neighbor : neighbors){
-                neighborsString.append(neighbor).append(", ");
-            }
-
-            string.append(String.format(OBJECT_TEMPLATE, agentId, neighborsString));
-        }
-
-        string.append("}");
-
-        return string.toString();
     }
 }

@@ -5,15 +5,19 @@ import Agent.AgentNetwork.*;
 import Agent.BoSAgent.*;
 import ArgsSerializer.*;
 import Audit.Audit;
+import Logger.Logger;
 import Mailer.*;
 import ReportMaker.ReportMaker;
 
 public class GameExecutor {
+    private final static String FORMATTED_ARGUMENTS_STRING = "Parsed arguments: numberOfAgents: %d, probability: %,.1f, gameType: %s, fraction: %s";
+    private static final int GAME_MASTER_ID = -1;
+    private static final Logger logger = new Logger("GameExecutor");
+
+
     private final Mailer mailer;
     private final GameArguments arguments;
     private final Audit audit;
-
-    private static final int GAME_MASTER_ID = -1;
 
     public GameExecutor(GameArguments arguments){
         this.audit = new Audit();
@@ -22,34 +26,30 @@ public class GameExecutor {
     }
 
     public GameExecutorResults runGame() throws InterruptedException {
+        logger.info("Running the game :)");
+
+
         /* 1. Extract game arguments  */
         int numberOfAgents = this.arguments.numberOfAgents();
         double probability = this.arguments.probability();
         GameType gameType = this.arguments.gameType();
         int fraction = this.arguments.fraction();
+        logger.info(String.format(FORMATTED_ARGUMENTS_STRING, numberOfAgents, probability, gameType, fraction));
 
         /* 2. Initialize agents network */
         NetworkGenerator generator = new NetworkGenerator(probability, numberOfAgents);
         AgentNetwork network = generator.generateNetwork();
+        logger.info("Initialized network");
+        network.print();
 
-        Agent[] agents = new Agent[numberOfAgents];
-        int createdAgents = 0;
 
         /* 3. Create agents by using a factory and register them in mailer */
-        for (int i = 0; i < numberOfAgents; i++) {
-            BoSAgentSex bosAgentSex = BoSAgentSex.WIFE;
-            if (fraction != 0){
-                bosAgentSex = createdAgents < fraction ? BoSAgentSex.WIFE : BoSAgentSex.HUSBAND;
-                createdAgents++;
-            }
-
-            agents[i] = AgentFactory.createAgent(gameType, i, numberOfAgents, mailer, network.getNeighbors(i), bosAgentSex);
-            mailer.register(i);
-        }
+        Agent[] agents = AgentFactory.createAgents(gameType, numberOfAgents, mailer, network, fraction);
+        logger.info("Agents created and registered to the mailer");
 
         /* 4. start game rounds, while first round we initialize the agents */
+        logger.info("Running scenario with given params");
         int totalRounds = runGame(agents);
-
 
         /* 5. calculate gains */
         int totalGain = 0;
@@ -77,6 +77,8 @@ public class GameExecutor {
 
     private int runGame(Agent [] agents) throws InterruptedException {
         boolean allAgentsStable;
+
+        // we start with -1 because in the first round every agent randomly select his strategy and updates his neighbors
         int rounds = -1;
 
         do {
@@ -86,6 +88,7 @@ public class GameExecutor {
             // increment round counter and audit it for the report
             rounds++;
             reportRound(rounds);
+            logger.info("Running round: " + (rounds != 0 ? rounds : "init"));
 
             // generate new threads (easier the restarting them at the end of a round)
             Thread [] threads = getThreads(agents);
@@ -94,16 +97,13 @@ public class GameExecutor {
             triggerFirstAgent();
 
             // start all threads
-            for (Thread t : threads) {
-                t.start();
-            }
+            for (Thread t : threads) t.start();
 
             // wait for all agents to terminate
-            for (Thread t : threads) {
-                t.join();
-            }
+            for (Thread t : threads) t.join();
 
             // check agent strategies, if one of the changed a strategy we need another round (not a stable round)
+            logger.info("Round: " + rounds + " concluded, verifying agents decision stability");
             for (Agent agent : agents) {
                 if (agent.hasStrategyChanged()) {
                     allAgentsStable = false;
@@ -111,6 +111,8 @@ public class GameExecutor {
                 }
             }
         } while (!allAgentsStable);
+
+        logger.info("Concluded all rounds");
 
         // all done result the total accumulated rounds
         return rounds;

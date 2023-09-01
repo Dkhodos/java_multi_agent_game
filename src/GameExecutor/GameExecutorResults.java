@@ -1,8 +1,12 @@
 package GameExecutor;
 
+import Logger.Logger;
+
 public record GameExecutorResults(int totalGain, int totalRounds) {
+    private static final Logger logger = new Logger("GameExecutorResults");
+
     public void print(){
-        System.out.println("Total Social Welfare (SW): " + totalGain);
-        System.out.println("Total number of rounds: " + totalRounds);
+        logger.info("Total Social Welfare (SW): " + totalGain);
+        logger.info("Total number of rounds: " + totalRounds);
     }
 }
