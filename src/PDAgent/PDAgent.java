@@ -13,13 +13,11 @@ public class PDAgent extends Agent {
     static final int BOTH_DEFECT = 5;
     static final int I_COOPERATE_HE_DEFECT = 0;
     static final int I_DEFECT_HE_COOPERATE = 10;
+    static private  final Random random = new Random();
 
-    private Strategy strategy = Strategy.COOPERATE;
     private final Map<Integer, Strategy> neighborsStrategies = new HashMap<>();
+    private Strategy strategy = Strategy.COOPERATE;
     private boolean strategyChanged = true; // To track if the strategy changed in the last round
-
-    private  final Random random = new Random();
-
 
     public PDAgent(int id,int numberOfAgents, Mailer mailer, List<Integer> neighbors) {
         super(id, numberOfAgents, mailer, neighbors);
