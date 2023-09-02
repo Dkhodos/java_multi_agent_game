@@ -34,7 +34,7 @@ public class BoSAgent extends Agent {
         pickStrategy();
 
         /* 3. Send my decision to my neighbors */
-        sendDecisionToNeighbors(strategy);
+        sendDecisionToNeighbors();
 
         /* 4. trigger next agent */
         triggerNextAgent();
@@ -71,7 +71,7 @@ public class BoSAgent extends Agent {
             }
 
             try {
-                Thread.sleep(100);
+                Thread.sleep(50);
             } catch (InterruptedException e) {
                 throw new RuntimeException(e);
             }
@@ -118,9 +118,12 @@ public class BoSAgent extends Agent {
         return strategy;
     }
 
-    private void sendDecisionToNeighbors(BoSStrategy action) {
+    private void sendDecisionToNeighbors() {
+        // no point in sending data if nothing changed
+        if(!strategyChanged) return;
+
         for (int neighborId : neighbors) {
-            mailer.send(neighborId, new BoSMessage(agentId, action, agentSex));
+            mailer.send(neighborId, new BoSMessage(agentId, strategy, agentSex));
         }
     }
 
