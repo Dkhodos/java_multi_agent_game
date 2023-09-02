@@ -44,7 +44,9 @@ jobs:
 
       - name: Compile
         run: |
-          javac -cp "lib/*" -d . src/*.java tests/*.java
+          # Recursively find and compile all .java files under src and tests directories
+          find src tests -name "*.java" > sources.txt
+          javac -cp "lib/*" -d . @sources.txt
 
       - name: Run tests
         run: |
