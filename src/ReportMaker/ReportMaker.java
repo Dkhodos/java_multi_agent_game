@@ -65,13 +65,13 @@ public class ReportMaker {
                 string.append(String.format(AUDIT_OBJECT_TEMPLATE, "BoSMessage", sender,
                         receiver, convertBoSAgentMessageToJavaScriptJson((BoSMessage)message)));
             } else if (message instanceof RoundUpdateMessage){
-                String round = String.valueOf(((RoundUpdateMessage) message).getRound());
+                String round = String.valueOf(((RoundUpdateMessage) message).round());
                 string.append(String.format(AUDIT_OBJECT_TEMPLATE, "RoundMessage", sender,receiver, round));
             } else if(message instanceof TotalScoreMessage){
-                String score = String.valueOf(((TotalScoreMessage) message).getScore());
+                String score = String.valueOf(((TotalScoreMessage) message).score());
                 string.append(String.format(AUDIT_OBJECT_TEMPLATE, "TotalScoreMessage", sender,receiver, score));
             } else if(message instanceof AgentScoreMessage){
-                String score = String.valueOf(((AgentScoreMessage) message).getScore());
+                String score = String.valueOf(((AgentScoreMessage) message).score());
                 string.append(String.format(AUDIT_OBJECT_TEMPLATE, "AgentScoreMessage", sender,receiver, score));
             }
         }
@@ -108,12 +108,9 @@ public class ReportMaker {
         String strategy = message.getStrategy().name();
         String sex = message.getAgentSex().name();
 
-        StringBuilder builder = new StringBuilder();
-        builder.append("{");
-        builder.append("\"strategy\": \"").append(strategy).append("\", ");
-        builder.append("\"sex\": \"").append(sex).append("\"}");
-
-        return builder.toString();
+        return "{" +
+                "\"strategy\": \"" + strategy + "\", " +
+                "\"sex\": \"" + sex + "\"}";
     }
 
     private String getGameName(GameType gameType){

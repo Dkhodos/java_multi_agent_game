@@ -130,14 +130,14 @@ public class GameExecutor {
     }
 
     private void reportRound(int round){
-        audit.recordMessage(GAME_MASTER_ID, GAME_MASTER_ID, new RoundUpdateMessage(GAME_MASTER_ID, round));
+        audit.recordMessage(GAME_MASTER_ID, GAME_MASTER_ID, new RoundUpdateMessage(round));
     }
 
     private void reportAgentScore(int agentId, int score){
-        audit.recordMessage(GAME_MASTER_ID, agentId, new AgentScoreMessage(GAME_MASTER_ID, score));
+        audit.recordMessage(GAME_MASTER_ID, agentId, new AgentScoreMessage(score));
     }
 
     private void reportTotalScore(int score){
-        audit.recordMessage(GAME_MASTER_ID, GAME_MASTER_ID, new TotalScoreMessage(GAME_MASTER_ID, score));
+        audit.recordMessage(GAME_MASTER_ID, GAME_MASTER_ID, new TotalScoreMessage(score));
     }
 }
