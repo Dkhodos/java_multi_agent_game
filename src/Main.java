@@ -2,12 +2,13 @@ import ArgsSerializer.*;
 import Exceptions.*;
 import GameExecutor.*;
 import Logger.Logger;
+import ReportMaker.ReportMaker;
 
 public class Main {
     private static final Logger logger = new Logger("Main");
 
     public static void main(String[] args) throws InterruptedException {
-        // extract parameters
+        /* extract parameters */
         ArgsSerializer argsSerializer = new ArgsSerializer(args);
         GameArguments gameArguments;
         try {
@@ -18,14 +19,19 @@ public class Main {
             return;
         }
 
-        // run game
+        /* run game */
         logger.title("Game");
         GameExecutor gameExecutor = new GameExecutor(gameArguments);
-        GameExecutorResults gameExecutorResults = gameExecutor.runGame();
+        GameExecutorResults results = gameExecutor.runGame();
 
-        // conclude results
+        /* create reports */
+        ReportMaker reportMaker = new ReportMaker();
+        reportMaker.generateReport(gameArguments.numberOfAgents(), gameArguments.gameType(), gameArguments.fraction(),
+                gameArguments.probability(), results.network(), results.audit());
+
+        /* conclude results */
         logger.title("Results");
-        gameExecutorResults.print();
+        results.print();
     }
 
     public static void printUsage(){

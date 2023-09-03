@@ -15,7 +15,6 @@ public class GameExecutor {
     private static final int GAME_MASTER_ID = -1;
     private static final Logger logger = new Logger("GameExecutor");
 
-
     private final Mailer mailer;
     private final GameArguments arguments;
     private final Audit audit;
@@ -63,13 +62,11 @@ public class GameExecutor {
             totalGain += personalGain;
         }
 
-        /* 6. manage reports */
+        /* 6. audit total gain */
         reportTotalScore(totalGain);
-        ReportMaker reportMaker = new ReportMaker();
-        reportMaker.generateReport(numberOfAgents, gameType, fraction, probability, network, audit);
 
         /* 7. return scores */
-        return new GameExecutorResults(totalGain, totalRounds);
+        return new GameExecutorResults(totalGain, totalRounds, network, audit);
     }
 
     private int runGame(Agent [] agents) throws InterruptedException {
