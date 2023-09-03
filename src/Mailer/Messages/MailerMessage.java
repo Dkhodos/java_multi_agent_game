@@ -1,6 +1,6 @@
 package Mailer.Messages;
 
-public abstract class MailerMessage implements Message{
+public abstract class MailerMessage {
     protected final int from;
 
     protected MailerMessage(int agentId){

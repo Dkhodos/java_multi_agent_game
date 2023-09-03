@@ -2,7 +2,7 @@ package Agent;
 
 import Audit.Audit;
 import Mailer.*;
-import Mailer.Messages.Message;
+import Mailer.Messages.MailerMessage;
 import Mailer.Messages.PlayMessage;
 
 import java.util.List;
@@ -52,7 +52,7 @@ public abstract class Agent implements Runnable {
 
     protected void readMessages(){
         while (true){
-            Message message = mailer.readOne(agentId);
+            MailerMessage message = mailer.readOne(agentId);
             if(message instanceof PlayMessage){
                 return;
             }
@@ -77,7 +77,7 @@ public abstract class Agent implements Runnable {
         mailer.send(nextAgentId, playMessage);
         audit.recordMessage(agentId, nextAgentId, playMessage);
     }
-    protected abstract void handleMessage(Message message);
+    protected abstract void handleMessage(MailerMessage message);
 
     protected abstract void pickStrategy();
     protected abstract void sendDecisionToNeighbors();

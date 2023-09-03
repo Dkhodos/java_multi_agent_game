@@ -31,7 +31,7 @@ public class BoSAgent extends Agent implements BoSPayoff {
         return agentSex;
     }
 
-    protected void handleMessage(Message message) {
+    protected void handleMessage(MailerMessage message) {
         if(message instanceof BoSMessage bosMessage){
             BoSNeighborData neighborData = new BoSNeighborData(bosMessage.getStrategy(), bosMessage.getAgentSex());
             neighborsData.put(bosMessage.getSenderId(), neighborData);

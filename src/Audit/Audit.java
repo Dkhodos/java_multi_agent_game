@@ -7,7 +7,7 @@ import java.util.List;
 public class Audit {
     private final List<RecordedMessage> recordedMessages = new ArrayList<>();
 
-    public void recordMessage(int sender, int receiver, Message message) {
+    public void recordMessage(int sender, int receiver, MailerMessage message) {
         recordedMessages.add(new RecordedMessage(sender, receiver, message));
     }
 

@@ -4,7 +4,6 @@ import Agent.Agent;
 import Audit.Audit;
 import Mailer.*;
 import Mailer.Messages.MailerMessage;
-import Mailer.Messages.Message;
 import Mailer.Messages.PDMessage;
 
 import java.util.HashMap;
@@ -28,7 +27,7 @@ public class PDAgent extends Agent implements PBPayoff {
     }
 
     @Override
-    protected void handleMessage(Message message) {
+    protected void handleMessage(MailerMessage message) {
         if(message instanceof PDMessage pdMessage){
             neighborsStrategies.put(pdMessage.getSenderId(), pdMessage.getStrategy());
         }
