@@ -8,10 +8,8 @@ import Logger.Logger;
 import Mailer.*;
 import Mailer.Messages.*;
 import Audit.Messages.*;
-import ReportMaker.ReportMaker;
 
 public class GameExecutor {
-    private final static String FORMATTED_ARGUMENTS_STRING = "Parsed arguments: numberOfAgents: %d, probability: %,.1f, gameType: %s, fraction: %s";
     private static final int GAME_MASTER_ID = -1;
     private static final Logger logger = new Logger("GameExecutor");
 
@@ -34,7 +32,6 @@ public class GameExecutor {
         double probability = this.arguments.probability();
         GameType gameType = this.arguments.gameType();
         int fraction = this.arguments.fraction();
-        logger.info(String.format(FORMATTED_ARGUMENTS_STRING, numberOfAgents, probability, gameType, fraction));
 
         /* 2. Initialize agents network */
         NetworkGenerator generator = new NetworkGenerator(probability, numberOfAgents);

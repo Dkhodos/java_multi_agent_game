@@ -9,6 +9,7 @@ public class Main {
 
     public static void main(String[] args) throws InterruptedException {
         /* extract parameters */
+        logger.title("Parse arguments");
         ArgsSerializer argsSerializer = new ArgsSerializer(args);
         GameArguments gameArguments;
         try {
@@ -18,9 +19,10 @@ public class Main {
             Main.printUsage();
             return;
         }
+        gameArguments.print();
 
         /* run game */
-        logger.title("Game");
+        logger.title("Execute Game");
         GameExecutor gameExecutor = new GameExecutor(gameArguments);
         GameExecutorResults results = gameExecutor.runGame();
 
@@ -30,7 +32,7 @@ public class Main {
                 gameArguments.probability(), results.network(), results.audit());
 
         /* conclude results */
-        logger.title("Results");
+        logger.title("Game Results");
         results.print();
     }
 
