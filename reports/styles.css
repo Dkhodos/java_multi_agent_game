@@ -44,19 +44,19 @@ h1{
     display: grid;
 }
 
-.agent svg {
+.agent svg, .agent path {
     fill: red;
 }
 
-.agent.active svg{
+.agent.active svg, .agent.active path{
     fill: green;
 }
 
-.agent.neighbor svg{
+.agent.neighbor svg, .agent.neighbor path{
     fill: blue;
 }
 
-.agent.done svg{
+.agent.done svg, .agent.done path{
     fill: black;
 }
 

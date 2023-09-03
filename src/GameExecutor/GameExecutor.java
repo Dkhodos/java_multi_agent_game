@@ -53,7 +53,6 @@ public class GameExecutor {
 
         /* 5. calculate gains */
         int totalGain = 0;
-        BoSAgentSex[] agentSexes = new BoSAgentSex[numberOfAgents];
         for (Agent agent : agents) {
             int personalGain = agent.getPersonalGain();
             int agentId = agent.getId();
@@ -61,16 +60,12 @@ public class GameExecutor {
             reportAgentScore(agentId, personalGain);
             logger.info("Agent " + agentId + " earned a score of " + personalGain);
             totalGain += personalGain;
-
-            if(agent instanceof BoSAgent bosAgent){
-                agentSexes[bosAgent.getId()] = bosAgent.getAgentSex();
-            }
         }
 
         /* 6. manage reports */
         reportTotalScore(totalGain);
         ReportMaker reportMaker = new ReportMaker();
-        reportMaker.generateReport(numberOfAgents, gameType, fraction, probability, network, audit, agentSexes);
+        reportMaker.generateReport(numberOfAgents, gameType, fraction, probability, network, audit);
 
         /* 7. return scores */
         return new GameExecutorResults(totalGain, totalRounds);

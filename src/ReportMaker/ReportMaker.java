@@ -20,15 +20,14 @@ public class ReportMaker {
     final static String reportTemplateFile = System.getProperty("user.dir") + "/reports/report.template.html";
 
     public void generateReport(int numberOfAgents, GameType gameType,int fraction, double probability,
-                               AgentNetwork network, Audit audit, BoSAgentSex[] bosAgentsSex){
+                               AgentNetwork network, Audit audit){
         try {
             String html = new String(Files.readAllBytes(Paths.get(reportTemplateFile)));
 
             html = html.replace("{{gameName}}", getGameName(gameType));
-            html = html.replace("{{data}}", auditToJavaScriptJsonString(audit));
+            html = html.replace("{{messages}}", auditToJavaScriptJsonString(audit));
             html = html.replace("{{connections}}", agentNetworkToJavaScriptJsonString(network));
             html = html.replace("{{numberOfAgents}}", String.valueOf(numberOfAgents));
-            html = html.replace("{{agentsSex}}", convertAgentSexArrayToJavaScriptArray(bosAgentsSex));
             html = html.replace("{{fraction}}", String.valueOf(fraction));
             html = html.replace("{{probability}}", String.valueOf(probability));
 
@@ -52,7 +51,7 @@ public class ReportMaker {
             int sender = recordedMessage.sender();
             int receiver = recordedMessage.receiver();
 
-            String AUDIT_OBJECT_TEMPLATE = "{type: \"%s\", sender: \"%d\", receiver: \"%d\", meta: \"%s\"},";
+            String AUDIT_OBJECT_TEMPLATE = "{type: \"%s\", sender: \"%d\", receiver: \"%d\", meta: `%s`},";
 
             if(message instanceof PDMessage){
                 PDStrategy strategy = ((PDMessage) message).getStrategy();
@@ -60,8 +59,8 @@ public class ReportMaker {
             } else if(message instanceof PlayMessage){
                 string.append(String.format(AUDIT_OBJECT_TEMPLATE, "PlayMessage", sender,receiver, ""));
             } else if (message instanceof BoSMessage) {
-                BoSStrategy strategy = ((BoSMessage) message).getStrategy();
-                string.append(String.format(AUDIT_OBJECT_TEMPLATE, "BoSMessage", sender,receiver, strategy));
+                string.append(String.format(AUDIT_OBJECT_TEMPLATE, "BoSMessage", sender,
+                        receiver, convertBoSAgentMessageToJavaScriptJson((BoSMessage)message)));
             } else if (message instanceof RoundUpdateMessage){
                 String round = String.valueOf(((RoundUpdateMessage) message).getRound());
                 string.append(String.format(AUDIT_OBJECT_TEMPLATE, "RoundMessage", sender,receiver, round));
@@ -102,19 +101,17 @@ public class ReportMaker {
         return string.toString();
     }
 
-    private String convertAgentSexArrayToJavaScriptArray(BoSAgentSex[] bosAgentsSex) {
-        if (bosAgentsSex[0] == null) {
-            return "[]";
-        }
+    private String convertBoSAgentMessageToJavaScriptJson(BoSMessage message){
+        String strategy = message.getStrategy().name();
+        String sex = message.getAgentSex().name();
 
-        StringBuilder builder = new StringBuilder("[");
-        for (int i = 0; i < bosAgentsSex.length; i++) {
-            builder.append("\"").append(bosAgentsSex[i].name()).append("\"");
-            if (i < bosAgentsSex.length - 1) {
-                builder.append(",");
-            }
-        }
-        builder.append("]");
+        StringBuilder builder = new StringBuilder();
+        builder.append("{");
+        builder.append("\"strategy\": \"").append(strategy).append("\", ");
+        builder.append("\"sex\": \"").append(sex).append("\"}");
+
+        System.out.println(builder.toString());
+
         return builder.toString();
     }
 
