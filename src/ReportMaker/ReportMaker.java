@@ -21,6 +21,7 @@ public class ReportMaker {
     private static final Logger logger = new Logger("ReportMaker");
 
     final static String reportTemplateFile = System.getProperty("user.dir") + "/reports/report.template.html";
+    final static String staticFilesDirectory = System.getProperty("user.dir") + "/static";
 
     public void generateReport(int numberOfAgents, GameType gameType,int fraction, double probability,
                                AgentNetwork network, Audit audit){
@@ -34,6 +35,10 @@ public class ReportMaker {
             html = html.replace("{{numberOfAgents}}", String.valueOf(numberOfAgents));
             html = html.replace("{{fraction}}", String.valueOf(fraction));
             html = html.replace("{{probability}}", String.valueOf(probability));
+
+            html = html.replace("{{prisonerSvg}}", readSvgFromFile("prisoner.svg"));
+            html = html.replace("{{husbandSvg}}", readSvgFromFile("husband.svg"));
+            html = html.replace("{{wifeSvg}}", readSvgFromFile("wife.svg"));
 
             String reportDirectory = System.getProperty("user.dir") + "/reports";
 
@@ -133,5 +138,16 @@ public class ReportMaker {
             }
         }
         return "Unknown";
+    }
+
+    private String readSvgFromFile(String fileName){
+        String filepath = staticFilesDirectory + "/" + fileName;
+
+        try {
+            return new String(Files.readAllBytes(Paths.get(filepath)));
+        } catch (IOException e) {
+            e.printStackTrace();
+            return "";
+        }
     }
 }
