@@ -1,5 +1,5 @@
 (async () => {
-    const SPEED = 100;
+    const SPEED = 1;
 
     const PRISONER_SVG = `
     <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" fill="#000000" height="40px" width="40px" version="1.1" id="Capa_1" viewBox="0 0 612 612" xml:space="preserve">
@@ -50,8 +50,6 @@
         game.className = 'game';
 
         let womenToCreate = fraction;
-
-        console.log("gameType", gameType, gameType === "PB")
 
         for (let i = 0; i < numberOfAgents; i++) {
             if(gameType === "PD"){
@@ -239,9 +237,9 @@
                 const scoreElement = document.querySelector(".score");
                 scoreElement.innerHTML = message.meta;
             } else if (message.type === "AgentScoreMessage"){
-                const receiver = Number(message.receiver);
-                const agentScore = [...document.querySelectorAll('.agent-score')][receiver];
-                agentScore.innerHTML = message.meta;
+                const meta = JSON.parse(message.meta);
+                const agentScoreElement = [...document.querySelectorAll('.agent-score')][meta.agentId];
+                agentScoreElement.innerHTML = meta.score;
             } else if (message.type === "BoSMessage") {
                 const meta = JSON.parse(message.meta);
                 const activeAgentStrategyElement = document.querySelector(".agent.active .strategy");

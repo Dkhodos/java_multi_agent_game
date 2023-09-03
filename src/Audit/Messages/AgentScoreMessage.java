@@ -1,4 +1,4 @@
 package Audit.Messages;
 
-public record AgentScoreMessage(int score) implements AuditMessage {
+public record AgentScoreMessage(int agentId, int score) implements AuditMessage {
 }

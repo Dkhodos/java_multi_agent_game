@@ -128,7 +128,7 @@ public class GameExecutor {
     }
 
     private void reportAgentScore(int agentId, int score){
-        audit.recordMessage(GAME_MASTER_ID, agentId, new AgentScoreMessage(score));
+        audit.recordMessage(GAME_MASTER_ID, GAME_MASTER_ID, new AgentScoreMessage(agentId, score));
     }
 
     private void reportTotalScore(int score){

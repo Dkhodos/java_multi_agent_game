@@ -62,18 +62,18 @@ public class ReportMaker {
                 string.append(String.format(AUDIT_OBJECT_TEMPLATE, "PDMessage", sender,receiver, strategy));
             } else if(message instanceof PlayMessage){
                 string.append(String.format(AUDIT_OBJECT_TEMPLATE, "PlayMessage", sender,receiver, ""));
-            } else if (message instanceof BoSMessage) {
+            } else if (message instanceof BoSMessage boSMessage) {
                 string.append(String.format(AUDIT_OBJECT_TEMPLATE, "BoSMessage", sender,
-                        receiver, convertBoSAgentMessageToJavaScriptJson((BoSMessage)message)));
+                        receiver, convertBoSAgentMessageToJavaScriptJson(boSMessage)));
             } else if (message instanceof RoundUpdateMessage){
                 String round = String.valueOf(((RoundUpdateMessage) message).round());
                 string.append(String.format(AUDIT_OBJECT_TEMPLATE, "RoundMessage", sender,receiver, round));
             } else if(message instanceof TotalScoreMessage){
                 String score = String.valueOf(((TotalScoreMessage) message).score());
                 string.append(String.format(AUDIT_OBJECT_TEMPLATE, "TotalScoreMessage", sender,receiver, score));
-            } else if(message instanceof AgentScoreMessage){
-                String score = String.valueOf(((AgentScoreMessage) message).score());
-                string.append(String.format(AUDIT_OBJECT_TEMPLATE, "AgentScoreMessage", sender,receiver, score));
+            } else if(message instanceof AgentScoreMessage agentScoreMessage){
+                string.append(String.format(AUDIT_OBJECT_TEMPLATE, "AgentScoreMessage", sender,receiver,
+                        convertAgentScoreMessageToJavaScriptJson(agentScoreMessage)));
             }
         }
 
@@ -112,6 +112,15 @@ public class ReportMaker {
         return "{" +
                 "\"strategy\": \"" + strategy + "\", " +
                 "\"sex\": \"" + sex + "\"}";
+    }
+
+    private String convertAgentScoreMessageToJavaScriptJson(AgentScoreMessage message){
+        int agentId = message.agentId();
+        int score = message.score();
+
+        return "{" +
+                "\"agentId\": " + agentId + ", " +
+                "\"score\": " + score + "}";
     }
 
     private String getGameName(GameType gameType){
