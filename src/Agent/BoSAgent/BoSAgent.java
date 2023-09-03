@@ -7,13 +7,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-public class BoSAgent extends Agent {
-    static final int WIFE_THEATRE = 3;
-    static final int HUSBAND_THEATRE = 1;
-    static final int WIFE_SOCCER = 1;
-    static final int HUSBAND_SOCCER = 3;
-    static final int BOTH_PICK_DIFFERENTLY = 0;
-
+public class BoSAgent extends Agent implements BoSPayoff {
     private final BoSAgentSex agentSex;
     private BoSStrategy strategy;
     private final Map<Integer, BoSNeighborData> neighborsData = new HashMap<>();
@@ -49,7 +43,7 @@ public class BoSAgent extends Agent {
     public int getPersonalGain(){
         int totalGain = 0;
         for (BoSNeighborData neighborData : neighborsData.values()) {
-            totalGain += calculatePayoff(strategy, neighborData.strategy());
+            totalGain += calculatePayoff(agentSex, strategy, neighborData.strategy());
         }
         return totalGain;
     }
@@ -82,40 +76,13 @@ public class BoSAgent extends Agent {
         BoSStrategy bestStrategy;
 
         if(strategy == null){
-            bestStrategy = random.nextBoolean() ? BoSStrategy.THEATRE : BoSStrategy.SOCCER;
+            bestStrategy = pickRandomStrategy(random);
         } else {
-            int newRoundPayoff = 0;
-
-            for (BoSNeighborData neighborData: neighborsData.values()) {
-                newRoundPayoff += calculatePayoff(strategy, neighborData.strategy());
-            }
-
-            bestStrategy = calculateBestStrategy(newRoundPayoff);
+            bestStrategy = pickBestStrategy(neighborsData, agentSex, strategy);
         }
 
         strategyChanged = (strategy != bestStrategy);
         strategy = bestStrategy;
-    }
-
-    private int calculatePayoff(BoSStrategy myStrategy, BoSStrategy neighborStrategy){
-        if(myStrategy == BoSStrategy.SOCCER && neighborStrategy == BoSStrategy.SOCCER) {
-            return agentSex == BoSAgentSex.WIFE ? WIFE_SOCCER : HUSBAND_SOCCER;
-        } else if(myStrategy == BoSStrategy.SOCCER && neighborStrategy == BoSStrategy.THEATRE) {
-            return BOTH_PICK_DIFFERENTLY;
-        } else if(myStrategy == BoSStrategy.THEATRE && neighborStrategy == BoSStrategy.SOCCER){
-            return BOTH_PICK_DIFFERENTLY;
-        } else {
-            return agentSex == BoSAgentSex.WIFE ? WIFE_THEATRE : HUSBAND_THEATRE;
-        }
-    }
-
-    private BoSStrategy calculateBestStrategy(int newRoundPayoff) {
-        if (newRoundPayoff > payoff) {
-            payoff = newRoundPayoff;
-            return strategy == BoSStrategy.SOCCER ? BoSStrategy.THEATRE : BoSStrategy.SOCCER;
-        }
-
-        return strategy;
     }
 
     private void sendDecisionToNeighbors() {

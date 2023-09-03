@@ -198,7 +198,7 @@
 
                 const currentAgent = document.querySelector(`.agent[data-id="${message.sender}"]`)
                 if(currentAgent) currentAgent.classList.add("active");
-            } else if( message.type === "PDMessage"){
+            } else if( message.type === "PDMessage" || message.type === "BoSMessage"){
                 const activeAgentStrategyElement = document.querySelector(".agent.active .strategy");
                 if(activeAgentStrategyElement) activeAgentStrategyElement.innerHTML = message.meta;
 
