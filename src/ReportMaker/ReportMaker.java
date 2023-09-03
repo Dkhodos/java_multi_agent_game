@@ -25,6 +25,7 @@ public class ReportMaker {
             String html = new String(Files.readAllBytes(Paths.get(reportTemplateFile)));
 
             html = html.replace("{{gameName}}", getGameName(gameType));
+            html = html.replace("{{gameType}}", "\"" + gameType + "\"");
             html = html.replace("{{messages}}", auditToJavaScriptJsonString(audit));
             html = html.replace("{{connections}}", agentNetworkToJavaScriptJsonString(network));
             html = html.replace("{{numberOfAgents}}", String.valueOf(numberOfAgents));
