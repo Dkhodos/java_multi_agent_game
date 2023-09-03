@@ -1,6 +1,7 @@
 package Audit.Messages;
 
-import Mailer.Messages.Message;
+
+import Message.Message;
 
 interface AuditMessage extends Message {
 

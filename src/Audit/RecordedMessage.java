@@ -1,6 +1,6 @@
 package Audit;
 
-import Mailer.Messages.MailerMessage;
+import Message.Message;
 
-public record RecordedMessage(int sender, int receiver, MailerMessage message) {
+public record RecordedMessage(int sender, int receiver, Message message) {
 }

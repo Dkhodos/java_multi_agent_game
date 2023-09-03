@@ -9,6 +9,7 @@ import Audit.Messages.RoundUpdateMessage;
 import Audit.Messages.TotalScoreMessage;
 import Logger.Logger;
 import Mailer.Messages.*;
+import Message.Message;
 
 import java.io.IOException;
 import java.nio.file.Files;
