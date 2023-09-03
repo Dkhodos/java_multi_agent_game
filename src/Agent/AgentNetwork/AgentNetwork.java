@@ -2,10 +2,7 @@ package Agent.AgentNetwork;
 
 import Logger.Logger;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 public class AgentNetwork {
     private static final Logger logger = new Logger("AgentNetwork");

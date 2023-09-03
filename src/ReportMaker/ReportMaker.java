@@ -1,7 +1,6 @@
 package ReportMaker;
 
 import Agent.AgentNetwork.*;
-import Agent.BoSAgent.*;
 import Agent.PDAgent.PDStrategy;
 import ArgsSerializer.*;
 import Audit.*;
