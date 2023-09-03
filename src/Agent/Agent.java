@@ -1,6 +1,9 @@
 package Agent;
 
+import Audit.Audit;
 import Mailer.*;
+import Mailer.Messages.Message;
+import Mailer.Messages.PlayMessage;
 
 import java.util.List;
 import java.util.Random;
@@ -11,13 +14,15 @@ public abstract class Agent implements Runnable {
 
     protected final Mailer mailer;
     protected final List<Integer> neighbors;
+    protected final Audit audit;
     protected boolean strategyChanged = true; // To track if the strategy changed in the last round
     static protected final Random random = new Random();
 
-    protected Agent(int agentId, int numberOfAgents, Mailer mailer, List<Integer> neighbors){
+    protected Agent(int agentId, int numberOfAgents, Mailer mailer, Audit audit, List<Integer> neighbors){
         this.agentId = agentId;
         this.numberOfAgents = numberOfAgents;
         this.mailer = mailer;
+        this.audit = audit;
         this.neighbors = neighbors;
     }
 
@@ -68,7 +73,9 @@ public abstract class Agent implements Runnable {
             return;
         }
 
-        mailer.send(nextAgentId, new PlayMessage(nextAgentId));
+        PlayMessage playMessage = new PlayMessage(nextAgentId);
+        mailer.send(nextAgentId, playMessage);
+        audit.recordMessage(agentId, nextAgentId, playMessage);
     }
     protected abstract void handleMessage(Message message);
 

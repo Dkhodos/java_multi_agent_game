@@ -22,7 +22,7 @@ class AgentFactoryTest {
      @BeforeEach
      void setUp() {
          audit = new Audit();
-         mailer = new Mailer(audit);
+         mailer = new Mailer();
          agentNetwork = new AgentNetwork(1) {
              @Override
              public List<Integer> getNeighbors(int agentId) {
@@ -33,24 +33,24 @@ class AgentFactoryTest {
 
     @Test
     void testCreatePDAgent() {
-        Agent agent = AgentFactory.createAgent(GameType.PD, 1,2, mailer, null, BoSAgentSex.WIFE);
+        Agent agent = AgentFactory.createAgent(GameType.PD, 1,2, mailer,audit, null, BoSAgentSex.WIFE);
         assertTrue(agent instanceof PDAgent, "Expected instance of PDAgent");
     }
 
     @Test
     void testCreateBoSAgent() {
-        Agent agent = AgentFactory.createAgent(GameType.BoS, 1,2, mailer, null, BoSAgentSex.WIFE);
+        Agent agent = AgentFactory.createAgent(GameType.BoS, 1,2, mailer,audit, null, BoSAgentSex.WIFE);
         assertTrue(agent instanceof BoSAgent, "Expected instance of BoSAgent");
     }
 
     @Test
     void testInvalidGameType() {
-        assertThrows(IllegalArgumentException.class, () -> AgentFactory.createAgent(null, 1,2, mailer, null, BoSAgentSex.WIFE), "Expected IllegalArgumentException for null GameType");
+        assertThrows(IllegalArgumentException.class, () -> AgentFactory.createAgent(null, 1,2, mailer,audit, null, BoSAgentSex.WIFE), "Expected IllegalArgumentException for null GameType");
     }
 
     @Test
     void testCreatePDAgents() {
-        Agent[] agents = AgentFactory.createAgents(GameType.PD, 5, mailer, agentNetwork, 0);
+        Agent[] agents = AgentFactory.createAgents(GameType.PD, 5, mailer,audit, agentNetwork, 0);
         assertEquals(5, agents.length, "Expected 5 PDAgents");
 
         for (Agent agent : agents) {
@@ -62,7 +62,7 @@ class AgentFactoryTest {
     void testCreateBoSAgents() {
         int numberOfAgents = 6;
         int maxWivesCount = 3; // Expected 3 wives and 3 husbands
-        Agent[] agents = AgentFactory.createAgents(GameType.BoS, numberOfAgents, mailer, agentNetwork, maxWivesCount);
+        Agent[] agents = AgentFactory.createAgents(GameType.BoS, numberOfAgents, mailer,audit, agentNetwork, maxWivesCount);
         assertEquals(numberOfAgents, agents.length, "Expected 6 BoSAgents");
 
         int wifeCount = 0, husbandCount = 0;

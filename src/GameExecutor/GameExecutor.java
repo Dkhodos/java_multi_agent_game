@@ -2,11 +2,12 @@ package GameExecutor;
 
 import Agent.*;
 import Agent.AgentNetwork.*;
-import Agent.BoSAgent.*;
 import ArgsSerializer.*;
 import Audit.Audit;
 import Logger.Logger;
 import Mailer.*;
+import Mailer.Messages.*;
+import Audit.Messages.*;
 import ReportMaker.ReportMaker;
 
 public class GameExecutor {
@@ -21,7 +22,7 @@ public class GameExecutor {
 
     public GameExecutor(GameArguments arguments){
         this.audit = new Audit();
-        this.mailer = new Mailer(audit);
+        this.mailer = new Mailer();
         this.arguments = arguments;
     }
 
@@ -44,7 +45,7 @@ public class GameExecutor {
 
 
         /* 3. Create agents by using a factory and register them in mailer */
-        Agent[] agents = AgentFactory.createAgents(gameType, numberOfAgents, mailer, network, fraction);
+        Agent[] agents = AgentFactory.createAgents(gameType, numberOfAgents, mailer, audit, network, fraction);
         logger.info("Agents created and registered to the mailer");
 
         /* 4. start game rounds, while first round we initialize the agents */
@@ -123,7 +124,9 @@ public class GameExecutor {
     }
 
     private void triggerFirstAgent(){
-        mailer.send(0, new PlayMessage(0));
+        PlayMessage playMessage = new PlayMessage(0);
+        mailer.send(0, playMessage);
+        audit.recordMessage(GAME_MASTER_ID, 0, playMessage);
     }
 
     private void reportRound(int round){

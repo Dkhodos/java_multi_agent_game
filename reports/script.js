@@ -81,7 +81,7 @@
         agentElement.innerHTML = `
                             <span class="number">${id}</span>
                             <div class="chrachter">${svg}</div>
-                            <div class="strategy"></div>
+                            <div class="strategy">?</div>
                             `
         return agentElement;
     }
@@ -166,7 +166,7 @@
           </thead>
           <tbody>
             <tr><td>Number of Agents</td><td>${numberOfAgents}</td></tr>
-            <tr><td>Probability</td><td>${probability * 100}%</td></tr>
+            <tr><td>Probability of connection</td><td>${probability * 100}%</td></tr>
             ${fraction ? "<tr><td>Fraction</td><td>" + fraction + "</td></tr>" : ""}
             <tr><td>Rounds</td><td class="round">Initializing...</td></tr>
             <tr><td>Total Social Welfare (SW)</td><td class="score">Culculating...</td></tr>
@@ -222,11 +222,11 @@
                 clearActiveAgent();
                 clearNeighborAgent();
 
-                const currentAgent = document.querySelector(`.agent[data-id="${message.sender}"]`)
+                const currentAgent = document.querySelector(`.agent[data-id="${message.receiver}"]`)
                 if(currentAgent) currentAgent.classList.add("active");
             } else if( message.type === "PDMessage"){
                 const activeAgentStrategyElement = document.querySelector(".agent.active .strategy");
-                if(activeAgentStrategyElement) activeAgentStrategyElement.innerHTML = message.meta;
+                activeAgentStrategyElement.innerHTML = message.meta;
 
                 const neighborAgent = document.querySelector(`.agent[data-id="${message.receiver}"]`);
                 if(neighborAgent) neighborAgent.classList.add("neighbor");

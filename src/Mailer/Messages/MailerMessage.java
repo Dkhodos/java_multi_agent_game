@@ -1,9 +1,9 @@
-package Mailer;
+package Mailer.Messages;
 
-public abstract class Message {
+public abstract class MailerMessage implements Message{
     protected final int from;
 
-    protected Message(int agentId){
+    protected MailerMessage(int agentId){
         this.from = agentId;
     }
 

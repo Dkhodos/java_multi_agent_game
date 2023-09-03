@@ -1,7 +1,11 @@
 package Agent.PDAgent;
 
 import Agent.Agent;
+import Audit.Audit;
 import Mailer.*;
+import Mailer.Messages.MailerMessage;
+import Mailer.Messages.Message;
+import Mailer.Messages.PDMessage;
 
 import java.util.HashMap;
 import java.util.List;
@@ -11,8 +15,8 @@ public class PDAgent extends Agent implements PBPayoff {
     private final Map<Integer, PDStrategy> neighborsStrategies = new HashMap<>();
     private PDStrategy strategy;
 
-    public PDAgent(int id,int numberOfAgents, Mailer mailer, List<Integer> neighbors) {
-        super(id, numberOfAgents, mailer, neighbors);
+    public PDAgent(int id, int numberOfAgents, Mailer mailer, Audit audit,List<Integer> neighbors) {
+        super(id, numberOfAgents, mailer, audit, neighbors);
     }
 
     public int getPersonalGain() {
@@ -26,7 +30,7 @@ public class PDAgent extends Agent implements PBPayoff {
     @Override
     protected void handleMessage(Message message) {
         if(message instanceof PDMessage pdMessage){
-            neighborsStrategies.put(message.getSenderId(), pdMessage.getStrategy());
+            neighborsStrategies.put(pdMessage.getSenderId(), pdMessage.getStrategy());
         }
     }
 
@@ -45,7 +49,9 @@ public class PDAgent extends Agent implements PBPayoff {
 
     protected void sendDecisionToNeighbors() {
         for (int neighborId : neighbors) {
-            mailer.send(neighborId, new PDMessage(getId(), strategy));
+            PDMessage pdMessage = new PDMessage(getId(), strategy);
+            mailer.send(neighborId, pdMessage);
+            audit.recordMessage(agentId, neighborId, pdMessage);
         }
     }
 }

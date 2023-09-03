@@ -4,8 +4,11 @@ import Agent.AgentNetwork.*;
 import Agent.PDAgent.PDStrategy;
 import ArgsSerializer.*;
 import Audit.*;
+import Audit.Messages.AgentScoreMessage;
+import Audit.Messages.RoundUpdateMessage;
+import Audit.Messages.TotalScoreMessage;
 import Logger.Logger;
-import Mailer.*;
+import Mailer.Messages.*;
 
 import java.io.IOException;
 import java.nio.file.Files;
@@ -109,8 +112,6 @@ public class ReportMaker {
         builder.append("{");
         builder.append("\"strategy\": \"").append(strategy).append("\", ");
         builder.append("\"sex\": \"").append(sex).append("\"}");
-
-        System.out.println(builder.toString());
 
         return builder.toString();
     }

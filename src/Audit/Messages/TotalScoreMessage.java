@@ -1,9 +1,9 @@
-package Mailer;
+package Audit.Messages;
 
-public class AgentScoreMessage extends Message {
+public class TotalScoreMessage extends AuditMessage {
     private final int score;
 
-    public AgentScoreMessage(int agentId, int score) {
+    public TotalScoreMessage(int agentId, int score) {
         super(agentId);
         this.score = score;
     }

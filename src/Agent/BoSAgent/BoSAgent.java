@@ -1,8 +1,9 @@
 package Agent.BoSAgent;
 
 import Agent.Agent;
+import Audit.Audit;
 import Mailer.*;
-
+import Mailer.Messages.*;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -12,8 +13,8 @@ public class BoSAgent extends Agent implements BoSPayoff {
     private BoSStrategy strategy;
     private final Map<Integer, BoSNeighborData> neighborsData = new HashMap<>();
 
-    public BoSAgent(int id,int numberOfAgents, Mailer mailer, List<Integer> neighbors, BoSAgentSex agentSex) {
-        super(id, numberOfAgents, mailer, neighbors);
+    public BoSAgent(int id, int numberOfAgents, Mailer mailer, Audit audit,List<Integer> neighbors, BoSAgentSex agentSex) {
+        super(id, numberOfAgents, mailer, audit, neighbors);
         this.agentSex = agentSex;
     }
 
@@ -33,7 +34,7 @@ public class BoSAgent extends Agent implements BoSPayoff {
     protected void handleMessage(Message message) {
         if(message instanceof BoSMessage bosMessage){
             BoSNeighborData neighborData = new BoSNeighborData(bosMessage.getStrategy(), bosMessage.getAgentSex());
-            neighborsData.put(message.getSenderId(), neighborData);
+            neighborsData.put(bosMessage.getSenderId(), neighborData);
         }
     }
 
@@ -52,7 +53,9 @@ public class BoSAgent extends Agent implements BoSPayoff {
 
     protected void sendDecisionToNeighbors() {
         for (int neighborId : neighbors) {
-            mailer.send(neighborId, new BoSMessage(agentId, strategy, agentSex));
+            BoSMessage boSMessage = new BoSMessage(agentId, strategy, agentSex);
+            mailer.send(neighborId, boSMessage);
+            audit.recordMessage(agentId, neighborId, boSMessage);
         }
     }
 }

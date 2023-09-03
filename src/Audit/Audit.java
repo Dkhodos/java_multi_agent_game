@@ -1,6 +1,6 @@
 package Audit;
 
-import Mailer.*;
+import Mailer.Messages.*;
 import java.util.ArrayList;
 import java.util.List;
 

@@ -1,8 +1,8 @@
-package Mailer;
+package Mailer.Messages;
 
 import Agent.PDAgent.PDStrategy;
 
-public class PDMessage extends Message {
+public class PDMessage extends MailerMessage {
     private final PDStrategy action;
 
     public PDMessage(int agentId, PDStrategy action) {
