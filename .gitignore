@@ -31,3 +31,6 @@ bin/
 ### Reports ###
 reports/report.PD.html
 reports/report.BoS.html
+
+### Miscellaneous  ###
+concatenated.txt
