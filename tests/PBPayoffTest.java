@@ -9,11 +9,11 @@ import java.util.Map;
 
 public class PBPayoffTest {
 
-    private PBPayoff testClass;
+    private PDPayoff testClass;
 
     @BeforeEach
     public void setup() {
-        testClass = new PBPayoff() {}; // This is an anonymous class to create an instance of the interface
+        testClass = new PDPayoff() {}; // This is an anonymous class to create an instance of the interface
     }
 
     // Test cases for pickBestStrategy
@@ -47,22 +47,22 @@ public class PBPayoffTest {
     // Test cases for calculatePayoff
     @Test
     public void testCalculatePayoffBothCooperate() {
-        assertEquals(PBPayoff.BOTH_COOPERATE, testClass.calculatePayoff(PDStrategy.COOPERATE, PDStrategy.COOPERATE));
+        assertEquals(PDPayoff.BOTH_COOPERATE, testClass.calculatePayoff(PDStrategy.COOPERATE, PDStrategy.COOPERATE));
     }
 
     @Test
     public void testCalculatePayoffICooperateHeDefect() {
-        assertEquals(PBPayoff.I_COOPERATE_HE_DEFECT, testClass.calculatePayoff(PDStrategy.COOPERATE, PDStrategy.DEFECT));
+        assertEquals(PDPayoff.I_COOPERATE_HE_DEFECT, testClass.calculatePayoff(PDStrategy.COOPERATE, PDStrategy.DEFECT));
     }
 
     @Test
     public void testCalculatePayoffIDefectHeCooperates() {
-        assertEquals(PBPayoff.I_DEFECT_HE_COOPERATE, testClass.calculatePayoff(PDStrategy.DEFECT, PDStrategy.COOPERATE));
+        assertEquals(PDPayoff.I_DEFECT_HE_COOPERATE, testClass.calculatePayoff(PDStrategy.DEFECT, PDStrategy.COOPERATE));
     }
 
     @Test
     public void testCalculatePayoffBothDefect() {
-        assertEquals(PBPayoff.BOTH_DEFECT, testClass.calculatePayoff(PDStrategy.DEFECT, PDStrategy.DEFECT));
+        assertEquals(PDPayoff.BOTH_DEFECT, testClass.calculatePayoff(PDStrategy.DEFECT, PDStrategy.DEFECT));
     }
 
     @Test

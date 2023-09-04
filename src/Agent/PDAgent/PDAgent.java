@@ -14,7 +14,7 @@ import java.util.Map;
  * Represents an agent that plays the Prisoner's Dilemma game.
  * Extends the Agent class and implements the PBPayoff interface.
  */
-public class PDAgent extends Agent implements PBPayoff {
+public class PDAgent extends Agent implements PDPayoff {
     private final Map<Integer, PDStrategy> neighborsStrategies = new HashMap<>();
     private PDStrategy strategy;
 
@@ -43,6 +43,10 @@ public class PDAgent extends Agent implements PBPayoff {
             totalGain += calculatePayoff(strategy, neighborStrategy);
         }
         return totalGain;
+    }
+
+    public PDStrategy getStrategy(){
+        return strategy;
     }
 
     /**

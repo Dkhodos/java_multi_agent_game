@@ -6,7 +6,7 @@ import java.util.Random;
 /**
  * Defines the payoff values and strategies for the Prisoner's Dilemma (PD) game.
  */
-public interface PBPayoff {
+public interface PDPayoff {
     // Payoff values for different combinations of strategies
 
     int BOTH_COOPERATE = 8;
