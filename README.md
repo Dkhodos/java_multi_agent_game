@@ -99,6 +99,18 @@ This project provides a simulation of various game strategies based on specified
 - `testCreatePDAgents`: Validates the creation of multiple PD Agents.
 - `testCreateBoSAgents`: Checks
 
+### **TestPDAgent**:
+- `testAgentStuckWithoutPlayMessage`: Validates that the agent does not send any message without receiving a `PlayMessage`.
+- `testAgentRunsAndSendsMessageToNeighbor`: Confirms that upon receiving a `PlayMessage`, the agent sends its strategy to its neighbor.
+- `testAgentDoesNotSentMessageTwice`: Ensures the agent does not send duplicate messages to its neighbor.
+- `testAgentPicksDefectWhenNeighborCooperates`: Validates that the agent picks DEFECT when its neighbor chooses COOPERATE.
+- `testAgentPicksDefectWhenNeighborDefects`: Confirms the agent sticks to DEFECT when its neighbor also defects.
+
+### **TestBoSAgent**:
+- `testAgentStuckWithoutPlayMessage`: Validates that the agent does not send any message without receiving a `PlayMessage`.
+- `testAgentRunsAndSendsMessageToNeighbor`: Confirms that upon receiving a `PlayMessage`, the agent sends its strategy to its neighbor based on its assigned sex (HUSBAND/WIFE).
+- `testAgentDoesNotSentMessageTwice`: Ensures the agent does not send duplicate messages to its neighbor.
+
 ## Github CI
 - Check `.github/workflows/tests.yaml`.
 
