@@ -18,6 +18,15 @@ public abstract class Agent implements Runnable {
     protected boolean strategyChanged = true; // To track if the strategy changed in the last round
     static protected final Random random = new Random();
 
+    /**
+     * Initializes the Agent with specified attributes and dependencies.
+     *
+     * @param agentId Unique ID of the agent.
+     * @param numberOfAgents Total number of agents.
+     * @param mailer Communication interface for the agent.
+     * @param audit Audit instance for logging activities.
+     * @param neighbors List of neighboring agents.
+     */
     protected Agent(int agentId, int numberOfAgents, Mailer mailer, Audit audit, List<Integer> neighbors){
         this.agentId = agentId;
         this.numberOfAgents = numberOfAgents;
@@ -26,14 +35,30 @@ public abstract class Agent implements Runnable {
         this.neighbors = neighbors;
     }
 
+    /**
+     * Retrieves the unique ID of the agent.
+     *
+     * @return The agent's ID.
+     */
     public int getId(){
         return agentId;
     }
 
+
+    /**
+     * Checks if the agent's strategy changed in the last round.
+     *
+     * @return true if the strategy changed, false otherwise.
+     */
     public boolean hasStrategyChanged(){
         return strategyChanged;
     }
 
+
+    /**
+     * Executes the main loop of the agent.
+     * Reads messages from neighbors, picks a strategy, sends decisions, and triggers the next agent.
+     */
     public void run(){
         if(neighbors.isEmpty()) return;
 
@@ -50,6 +75,16 @@ public abstract class Agent implements Runnable {
         triggerNextAgent();
     }
 
+    /**
+     * Retrieves the agent's personal gain.
+     *
+     * @return The personal gain value.
+     */
+    public abstract int getPersonalGain();
+
+    /**
+     * Reads messages from the agent's neighbors.
+     */
     protected void readMessages(){
         while (true){
             MailerMessage message = mailer.readOne(agentId);
@@ -67,6 +102,10 @@ public abstract class Agent implements Runnable {
         }
     }
 
+
+    /**
+     * Triggers the next agent to play its turn.
+     */
     protected void triggerNextAgent(){
         int nextAgentId = agentId + 1;
         if(nextAgentId == numberOfAgents){
@@ -77,10 +116,22 @@ public abstract class Agent implements Runnable {
         mailer.send(nextAgentId, playMessage);
         audit.recordMessage(agentId, nextAgentId, playMessage);
     }
+
+    /**
+     * Handles incoming messages from neighbors.
+     *
+     * @param message The incoming message to handle.
+     */
     protected abstract void handleMessage(MailerMessage message);
 
-    protected abstract void pickStrategy();
-    protected abstract void sendDecisionToNeighbors();
 
-    public abstract int getPersonalGain();
+    /**
+     * Picks the best strategy based on the current game state.
+     */
+    protected abstract void pickStrategy();
+
+    /**
+     * Sends the agent's decision to its neighbors.
+     */
+    protected abstract void sendDecisionToNeighbors();
 }

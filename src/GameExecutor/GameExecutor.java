@@ -9,6 +9,10 @@ import Mailer.*;
 import Mailer.Messages.*;
 import Audit.Messages.*;
 
+/**
+ * Executes the game based on provided arguments.
+ * Handles the game setup, agent initialization, and the game loop.
+ */
 public class GameExecutor {
     private static final int GAME_MASTER_ID = -1;
     private static final Logger logger = new Logger("GameExecutor");
@@ -17,12 +21,23 @@ public class GameExecutor {
     private final GameArguments arguments;
     private final Audit audit;
 
+    /**
+     * Initializes the GameExecutor with specified game arguments.
+     *
+     * @param arguments The arguments for the game.
+     */
     public GameExecutor(GameArguments arguments){
         this.audit = new Audit();
         this.mailer = new Mailer();
         this.arguments = arguments;
     }
 
+    /**
+     * Executes the game loop and returns the results.
+     *
+     * @return The results of the game execution.
+     * @throws InterruptedException If the game execution is interrupted.
+     */
     public GameExecutorResults runGame() throws InterruptedException {
         logger.info("Running the game :)");
 
@@ -48,24 +63,26 @@ public class GameExecutor {
         logger.info("Running scenario with given params");
         int totalRounds = runGame(agents);
 
-        /* 5. calculate gains */
-        int totalGain = 0;
-        for (Agent agent : agents) {
-            int personalGain = agent.getPersonalGain();
-            int agentId = agent.getId();
+        /* 6. report agent personal gains (score) */
+        reportAgentScores(agents);
 
-            reportAgentScore(agentId, personalGain);
-            logger.info("Agent " + agentId + " earned a score of " + personalGain);
-            totalGain += personalGain;
-        }
+        /* 7. get total gain */
+        int totalGain = getTotalGain(agents);
 
-        /* 6. audit total gain */
+        /* 8. audit total gain */
         reportTotalScore(totalGain);
 
-        /* 7. return scores */
+        /* 9. return scores */
         return new GameExecutorResults(totalGain, totalRounds, network, audit);
     }
 
+    /**
+     * Executes multiple game rounds until all agents' strategies are stable.
+     *
+     * @param agents Array of game agents.
+     * @return Total number of game rounds executed.
+     * @throws InterruptedException If the game execution is interrupted.
+     */
     private int runGame(Agent [] agents) throws InterruptedException {
         boolean allAgentsStable;
 
@@ -82,7 +99,7 @@ public class GameExecutor {
             logger.info("Running round: " + (rounds != 0 ? rounds : "init"));
 
             // generate new threads (easier the restarting them at the end of a round)
-            Thread [] threads = getThreads(agents);
+            Thread [] threads = createAgentThreads(agents);
 
             // initiate the first agent to start the round
             triggerFirstAgent();
@@ -109,7 +126,13 @@ public class GameExecutor {
         return rounds;
     }
 
-    private Thread [] getThreads(Agent[] agents){
+    /**
+     * Generates threads for each agent for concurrent execution.
+     *
+     * @param agents Array of game agents.
+     * @return Array of threads for each agent.
+     */
+    private Thread [] createAgentThreads(Agent[] agents){
         Thread[] threads = new Thread[agents.length];
         for (int i = 0; i < agents.length; i++) {
             threads[i] = new Thread(agents[i]);
@@ -117,20 +140,59 @@ public class GameExecutor {
         return threads;
     }
 
+    /**
+     * Initiates the first agent to start the game round.
+     */
     private void triggerFirstAgent(){
         PlayMessage playMessage = new PlayMessage(0);
         mailer.send(0, playMessage);
         audit.recordMessage(GAME_MASTER_ID, 0, playMessage);
     }
 
+    /**
+     * Records the current game round to the audit.
+     *
+     * @param round Current game round.
+     */
     private void reportRound(int round){
         audit.recordMessage(GAME_MASTER_ID, GAME_MASTER_ID, new RoundUpdateMessage(round));
     }
 
-    private void reportAgentScore(int agentId, int score){
-        audit.recordMessage(GAME_MASTER_ID, GAME_MASTER_ID, new AgentScoreMessage(agentId, score));
+    /**
+     * Records the scores of each agent to the audit.
+     *
+     * @param agents Array of game agents.
+     */
+    private void reportAgentScores(Agent[] agents){
+        for (Agent agent : agents) {
+            int personalGain = agent.getPersonalGain();
+            int agentId = agent.getId();
+
+            audit.recordMessage(GAME_MASTER_ID, GAME_MASTER_ID, new AgentScoreMessage(agentId, personalGain));
+            logger.info("Agent " + agentId + " earned a score of " + personalGain);
+        }
     }
 
+
+    /**
+     * Calculates the total score (gain) across all agents.
+     *
+     * @param agents Array of game agents.
+     * @return Total score.
+     */
+    private int getTotalGain(Agent[] agents){
+        int totalGain = 0;
+        for (Agent agent : agents) {
+            totalGain += agent.getPersonalGain();
+        }
+        return totalGain;
+    }
+
+    /**
+     * Records the total score of the game to the audit.
+     *
+     * @param score Total game score.
+     */
     private void reportTotalScore(int score){
         audit.recordMessage(GAME_MASTER_ID, GAME_MASTER_ID, new TotalScoreMessage(score));
     }

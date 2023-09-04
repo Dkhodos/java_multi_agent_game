@@ -4,9 +4,18 @@ import GameExecutor.*;
 import Logger.Logger;
 import ReportMaker.ReportMaker;
 
+/**
+ * Main entry point for the game simulation.
+ */
 public class Main {
     private static final Logger logger = new Logger("Main");
 
+    /**
+     * Entry point for the application.
+     *
+     * @param args Command-line arguments.
+     * @throws InterruptedException If the game execution is interrupted.
+     */
     public static void main(String[] args) throws InterruptedException {
         /* extract parameters */
         logger.title("Parse arguments");
@@ -36,6 +45,9 @@ public class Main {
         results.print();
     }
 
+    /**
+     * Displays the correct usage of the application along with expected command-line arguments.
+     */
     public static void printUsage(){
         logger.info("### For Prisoner’s Dilemma (PD-" + GameType.PD.getValue() +") ###");
         logger.info("Usage: java Main <number_of_agents:int> <probability_of_connection:double> "

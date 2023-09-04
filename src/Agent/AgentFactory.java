@@ -9,8 +9,24 @@ import Agent.PDAgent.*;
 
 import java.util.List;
 
+/**
+ * Factory class responsible for creating Agent instances based on game type and other parameters.
+ */
 public class AgentFactory {
 
+    /**
+     * Creates an agent based on the provided game type and parameters.
+     *
+     * @param gameType The type of game the agent will participate in.
+     * @param id The unique ID of the agent.
+     * @param numberOfAgents The total number of agents.
+     * @param mailer Communication interface for the agent.
+     * @param audit Audit instance for logging activities.
+     * @param neighbors List of neighboring agents.
+     * @param bosAgentSex Gender of the agent (only applicable for BoS game type).
+     * @return An instance of an Agent based on the game type.
+     * @throws IllegalArgumentException If the game type is null or if gender is null for BoS game type.
+     */
     public static Agent createAgent(GameType gameType, int id, int numberOfAgents, Mailer mailer, Audit audit, List<Integer> neighbors, BoSAgentSex bosAgentSex) {
         if (gameType == null) {
             throw new IllegalArgumentException("GameType cannot be null");
@@ -27,6 +43,17 @@ public class AgentFactory {
         };
     }
 
+    /**
+     * Creates an array of agents based on the provided game type and parameters.
+     *
+     * @param gameType The type of game the agents will participate in.
+     * @param numberOfAgents The total number of agents.
+     * @param mailer Communication interface for the agents.
+     * @param audit Audit instance for logging activities.
+     * @param network Network of agent connections.
+     * @param fraction Fraction of agents to be of a specific gender (Women, only applicable for BoS game type).
+     * @return An array of Agent instances.
+     */
     public static Agent[] createAgents(GameType gameType, int numberOfAgents, Mailer mailer, Audit audit, AgentNetwork network, int fraction) {
         Agent[] agents = new Agent[numberOfAgents];
         int createdAgents = 0;
