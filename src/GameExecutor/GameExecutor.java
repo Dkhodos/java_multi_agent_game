@@ -61,7 +61,7 @@ public class GameExecutor {
 
         /* 4. start game rounds, while first round we initialize the agents */
         logger.info("Running scenario with given params");
-        int totalRounds = runGame(agents);
+        int totalRounds = startGameLoop(agents);
 
         /* 6. report agent personal gains (score) */
         reportAgentScores(agents);
@@ -83,7 +83,7 @@ public class GameExecutor {
      * @return Total number of game rounds executed.
      * @throws InterruptedException If the game execution is interrupted.
      */
-    private int runGame(Agent [] agents) throws InterruptedException {
+    private int startGameLoop(Agent [] agents) throws InterruptedException {
         boolean allAgentsStable;
 
         // we start with -1 because in the first round every agent randomly select his strategy and updates his neighbors
