@@ -3,7 +3,7 @@ import GameExecutor.*;
 import Logger.*;
 
 public class Main {
-    private static final int NUMBER_OF_GAMES = 10;
+    private static final int NUMBER_OF_GAMES = 100;
 
     private static final Logger logger = new Logger("Main");
 
