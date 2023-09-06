@@ -31,7 +31,7 @@ public record GameArguments(int numberOfAgents, double probability, GameType gam
      * Logs the parsed and validated game parameters.
      */
     public void print(){
-        logger.debug(String.format(FORMATTED_ARGUMENTS_STRING, numberOfAgents, probability, gameType, fraction));
+        logger.info(String.format(FORMATTED_ARGUMENTS_STRING, numberOfAgents, probability, gameType, fraction));
     }
 
     public static GameArguments getRandomArguments(int numberOfAgents, double probability){
