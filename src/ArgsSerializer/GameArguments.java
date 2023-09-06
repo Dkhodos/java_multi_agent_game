@@ -11,7 +11,7 @@ public record GameArguments(int numberOfAgents, double probability, GameType gam
     private static final Random random = new Random();
 
     // Format string for logging the parsed arguments
-    private final static String FORMATTED_ARGUMENTS_STRING = "Parsed arguments: numberOfAgents: %d, probability: %,.1f, gameType: %s, fraction: %s";
+    private final static String FORMATTED_ARGUMENTS_STRING = "Game arguments: numberOfAgents: %d, probability: %,.1f, gameType: %s, fraction: %s";
 
     // Logger instance for logging messages related to GameArguments
     private static final Logger logger = new Logger("GameArguments");
