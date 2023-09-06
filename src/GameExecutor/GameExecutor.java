@@ -39,7 +39,7 @@ public class GameExecutor {
      * @throws InterruptedException If the game execution is interrupted.
      */
     public GameExecutorResults runGame() throws InterruptedException {
-        logger.info("Running the game :)");
+        logger.debug("Running the game :)");
 
 
         /* 1. Extract game arguments  */
@@ -51,16 +51,16 @@ public class GameExecutor {
         /* 2. Initialize agents network */
         NetworkGenerator generator = new NetworkGenerator(probability, numberOfAgents);
         AgentNetwork network = generator.generateNetwork();
-        logger.info("Initialized network");
+        logger.debug("Initialized network");
         network.print();
 
 
         /* 3. Create agents by using a factory and register them in mailer */
         Agent[] agents = AgentFactory.createAgents(gameType, numberOfAgents, mailer, audit, network, fraction);
-        logger.info("Agents created and registered to the mailer");
+        logger.debug("Agents created and registered to the mailer");
 
         /* 4. start game rounds, while first round we initialize the agents */
-        logger.info("Running scenario with given params");
+        logger.debug("Running scenario with given params");
         int totalRounds = startGameLoop(agents);
 
         /* 6. report agent personal gains (score) */
@@ -96,7 +96,7 @@ public class GameExecutor {
             // increment round counter and audit it for the report
             rounds++;
             reportRound(rounds);
-            logger.info("Running round: " + (rounds != 0 ? rounds : "init"));
+            logger.debug("Running round: " + (rounds != 0 ? rounds : "init"));
 
             // generate new threads (easier the restarting them at the end of a round)
             Thread [] threads = createAgentThreads(agents);
@@ -111,7 +111,7 @@ public class GameExecutor {
             for (Thread t : threads) t.join();
 
             // check agent strategies, if one of the changed a strategy we need another round (not a stable round)
-            logger.info("Round: " + rounds + " concluded, verifying agents decision stability");
+            logger.debug("Round: " + rounds + " concluded, verifying agents decision stability");
             for (Agent agent : agents) {
                 if (agent.hasStrategyChanged()) {
                     allAgentsStable = false;
@@ -120,7 +120,7 @@ public class GameExecutor {
             }
         } while (!allAgentsStable);
 
-        logger.info("Concluded all rounds");
+        logger.debug("Concluded all rounds");
 
         // all done result the total accumulated rounds
         return rounds;
@@ -165,11 +165,7 @@ public class GameExecutor {
      */
     private void reportAgentScores(Agent[] agents){
         for (Agent agent : agents) {
-            int personalGain = agent.getPersonalGain();
-            int agentId = agent.getId();
-
-            audit.recordMessage(GAME_MASTER_ID, GAME_MASTER_ID, new AgentScoreMessage(agentId, personalGain));
-            logger.info("Agent " + agentId + " earned a score of " + personalGain);
+            agent.reportStatus();
         }
     }
 

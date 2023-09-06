@@ -83,6 +83,12 @@ public abstract class Agent implements Runnable {
     public abstract int getPersonalGain();
 
     /**
+    *  Print out the agents personal gain and strategy
+    * */
+    public abstract void reportStatus();
+
+
+    /**
      * Reads messages from the agent's neighbors.
      */
     protected void readMessages(){

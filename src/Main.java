@@ -1,7 +1,7 @@
 import ArgsSerializer.*;
 import Exceptions.*;
 import GameExecutor.*;
-import Logger.Logger;
+import Logger.*;
 import ReportMaker.ReportMaker;
 
 /**
@@ -18,7 +18,7 @@ public class Main {
      */
     public static void main(String[] args) throws InterruptedException {
         /* extract parameters */
-        logger.title("Parse arguments");
+        logger.debug("Parse arguments", LogType.Title);
         ArgsSerializer argsSerializer = new ArgsSerializer(args);
         GameArguments gameArguments;
         try {
@@ -31,7 +31,7 @@ public class Main {
         gameArguments.print();
 
         /* run game */
-        logger.title("Execute Game");
+        logger.debug("Execute Game", LogType.Title);
         GameExecutor gameExecutor = new GameExecutor(gameArguments);
         GameExecutorResults results = gameExecutor.runGame();
 
@@ -41,7 +41,7 @@ public class Main {
                 gameArguments.probability(), results.network(), results.audit());
 
         /* conclude results */
-        logger.title("Game Results");
+        logger.debug("Game Results", LogType.Title);
         results.print();
     }
 
@@ -49,12 +49,12 @@ public class Main {
      * Displays the correct usage of the application along with expected command-line arguments.
      */
     public static void printUsage(){
-        logger.info("### For Prisoner’s Dilemma (PD-" + GameType.PD.getValue() +") ###");
-        logger.info("Usage: java Main <number_of_agents:int> <probability_of_connection:double> "
+        logger.debug("### For Prisoner’s Dilemma (PD-" + GameType.PD.getValue() +") ###");
+        logger.debug("Usage: java Main <number_of_agents:int> <probability_of_connection:double> "
                 + GameType.PD.getValue());
 
-        logger.info("### For Battle of the Sexes (BoS-"+GameType.BoS.getValue()+") ###");
-        logger.info("Usage: java Main <number_of_agents:int> <probability_of_connection:double> "
+        logger.debug("### For Battle of the Sexes (BoS-"+GameType.BoS.getValue()+") ###");
+        logger.debug("Usage: java Main <number_of_agents:int> <probability_of_connection:double> "
                 + GameType.BoS.getValue() + " <friction:int>");
     }
 }

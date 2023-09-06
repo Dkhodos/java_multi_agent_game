@@ -45,7 +45,7 @@ public class ReportMaker {
             String reportFile = reportDirectory + "/report" + "." + gameType + ".html";
             Files.write(Paths.get(reportFile), html.getBytes());
 
-            logger.info("Generated HTML report for " + getGameName(gameType) + ": " + reportFile);
+            logger.debug("Generated HTML report for " + getGameName(gameType) + ": " + reportFile);
         } catch (IOException e) {
             throw new RuntimeException(e);
         }

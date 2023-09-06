@@ -1,4 +1,5 @@
 package Logger;
+import Settings.Settings;
 
 public class Logger {
     private final String name;
@@ -14,6 +15,15 @@ public class Logger {
     public static final String ERROR_RED = "\u001B[31m";
     public static final String BOLD = "\u001B[1m";
 
+    public void debug(String msg, LogType type){
+        if(!Settings.DEBUG) return;
+        printMessageByLogType(type, msg);
+    }
+
+    public void debug(String msg){
+        debug(msg, LogType.Info);
+    }
+
     public void info(String msg){
         printMessage(INFO_BLUE, msg);
     }
@@ -28,6 +38,15 @@ public class Logger {
 
     public  void error(String msg){
         printMessage(ERROR_RED, msg);
+    }
+
+    private void printMessageByLogType(LogType type, String msg){
+        switch (type){
+            case Info ->  info(msg);
+            case Error -> error(msg);
+            case Title -> title(msg);
+            case Warning -> warning(msg);
+        }
     }
 
     private void printMessage(String color, String msg){

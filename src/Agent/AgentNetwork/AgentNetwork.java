@@ -66,7 +66,7 @@ public class AgentNetwork {
      */
     public void print(){
         for (Map.Entry<Integer, List<Integer>> entry: network.entrySet()){
-            logger.info("Agent " + entry.getKey() + ": " + entry.getValue());
+            logger.debug("Agent " + entry.getKey() + ": " + entry.getValue());
         }
     }
 

@@ -14,7 +14,7 @@ public record GameExecutorResults(int totalGain, int totalRounds, AgentNetwork n
      * Logs the game results.
      */
     public void print(){
-        logger.info("Total Social Welfare (SW): " + totalGain);
-        logger.info("Total number of rounds: " + totalRounds);
+        logger.debug("Total Social Welfare (SW): " + totalGain);
+        logger.debug("Total number of rounds: " + totalRounds);
     }
 }

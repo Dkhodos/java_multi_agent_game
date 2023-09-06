@@ -2,6 +2,8 @@ package Agent.PDAgent;
 
 import Agent.Agent;
 import Audit.Audit;
+import Audit.Messages.AgentScoreMessage;
+import Logger.Logger;
 import Mailer.*;
 import Mailer.Messages.MailerMessage;
 import Mailer.Messages.PDMessage;
@@ -15,6 +17,8 @@ import java.util.Map;
  * Extends the Agent class and implements the PBPayoff interface.
  */
 public class PDAgent extends Agent implements PDPayoff {
+    private static final Logger logger = new Logger("PDAgent");
+
     private final Map<Integer, PDStrategy> neighborsStrategies = new HashMap<>();
     private PDStrategy strategy;
 
@@ -47,6 +51,13 @@ public class PDAgent extends Agent implements PDPayoff {
 
     public PDStrategy getStrategy(){
         return strategy;
+    }
+
+    public void reportStatus(){
+        int personalGain = getPersonalGain();
+
+        audit.recordMessage(agentId, -1, new AgentScoreMessage(agentId, personalGain));
+        logger.info("Agent " + agentId + " earned a score of " + personalGain + ", with strategy: " + strategy);
     }
 
     /**

@@ -72,7 +72,9 @@ This project provides a simulation of various game strategies based on specified
   ```shell
   ./compile_and_run.sh <number_of_agents:int> <probability_of_connection:double> <1:BoS game> <friction:int>
   ```
-
+  
+## Logging
+The projects include logging. You can use `Settings.DEBUG=true` to get logs of the entire process.
 ## Tests:
 
 ### **NetworkGeneratorTest**:

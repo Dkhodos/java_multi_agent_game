@@ -2,6 +2,8 @@ package Agent.BoSAgent;
 
 import Agent.Agent;
 import Audit.Audit;
+import Audit.Messages.AgentScoreMessage;
+import Logger.Logger;
 import Mailer.*;
 import Mailer.Messages.*;
 import java.util.HashMap;
@@ -13,6 +15,8 @@ import java.util.Map;
  * Extends the Agent class and implements the BoSPayoff interface.
  */
 public class BoSAgent extends Agent implements BoSPayoff {
+    private static final Logger logger = new Logger("BoSAgent");
+
     private final BoSAgentSex agentSex;
     private BoSStrategy strategy;
     private final Map<Integer, BoSNeighborData> neighborsData = new HashMap<>();
@@ -53,6 +57,14 @@ public class BoSAgent extends Agent implements BoSPayoff {
      */
     public BoSAgentSex getAgentSex() {
         return agentSex;
+    }
+
+    public void reportStatus(){
+        int personalGain = getPersonalGain();
+
+        audit.recordMessage(agentId, -1, new AgentScoreMessage(agentId, personalGain));
+        logger.info("Agent " + agentId + " earned a score of " + personalGain
+                + ", with strategy: " + strategy + ", and sex: " + agentSex);
     }
 
     /**
