@@ -23,8 +23,8 @@ public class Main {
         gameArguments.print();
 
         logger.title("Executing " + NUMBER_OF_GAMES +" Random Games");
-        int totalRawRounds = 0;
-        int totalSW = 0;
+        double totalRawRounds = 0;
+        double totalSW = 0;
 
         for (int i = 0; i < NUMBER_OF_GAMES; i++) {
             logger.info("Starting Game No." + (i + 1));
@@ -42,8 +42,8 @@ public class Main {
         }
 
         logger.title("Summarizing results");
-        logger.info("Average number of rounds: " + (totalRawRounds / NUMBER_OF_GAMES));
-        logger.info("Total SW: " + totalSW);
+        logger.info("Num_Iterations: " + (totalRawRounds / NUMBER_OF_GAMES));
+        logger.info("SW: " + (totalSW / NUMBER_OF_GAMES));
     }
 
     static private void printSingleGameResults(GameExecutorResults results, int gameNumber){
