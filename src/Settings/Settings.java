@@ -2,5 +2,5 @@ package Settings;
 
 public class Settings {
     public static final boolean DEBUG = true;
-    public static int AGENT_SLEEP_TIME = 1;
+    public static final int AGENT_SLEEP_TIME = 1;
 }
