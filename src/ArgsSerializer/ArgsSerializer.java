@@ -33,13 +33,13 @@ public class ArgsSerializer {
 
         int numberOfAgents = Integer.parseInt(arguments[0]);
         double probability = Double.parseDouble(arguments[1]);
-        int game = Double.valueOf(arguments[2]).intValue();
+        String game = arguments[2];
 
-        if(game == (GameType.PD).getValue()){
+        if(game.equals(GameType.PD.getValue())){
             return new GameArguments(numberOfAgents, probability, GameType.PD);
         }
 
-        if(game == (GameType.BoS).getValue()){
+        if(game.equals(GameType.BoS.getValue())){
             if(arguments.length < MIN_NUMBER_ARGS + 1){
                 throw new NotEnoughArgumentsException(MIN_NUMBER_ARGS + 1, arguments.length);
             }

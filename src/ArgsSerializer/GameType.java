@@ -4,18 +4,18 @@ package ArgsSerializer;
  * Enumerates the types of games available.
  */
 public enum GameType {
-    PD(1), BoS(2),;
+    PD("PD"), BoS("BoS"),;
 
     // Integer representation of the game type
-    private final int value;
+    private final String value;
 
     /**
      * Constructs a game type with its integer representation.
      *
-     * @param i The integer representation of the game type.
+     * @param value The string representation of the game type.
      */
-    GameType(int i) {
-        this.value = i;
+    GameType(String value) {
+        this.value = value;
     }
 
     /**
@@ -23,7 +23,7 @@ public enum GameType {
      *
      * @return The integer representation.
      */
-    public int getValue() {
+    public String getValue() {
         return value;
     }
 }

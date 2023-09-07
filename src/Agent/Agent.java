@@ -4,6 +4,7 @@ import Audit.Audit;
 import Mailer.*;
 import Mailer.Messages.MailerMessage;
 import Mailer.Messages.PlayMessage;
+import Settings.Settings;
 
 import java.util.List;
 import java.util.Random;
@@ -98,10 +99,12 @@ public abstract class Agent implements Runnable {
 
             handleMessage(message);
 
-            try {
-                Thread.sleep(50);
-            } catch (InterruptedException e) {
-                throw new RuntimeException(e);
+            if(Settings.AGENT_SLEEP_TIME > 0 ){
+                try {
+                    Thread.sleep(Settings.AGENT_SLEEP_TIME);
+                } catch (InterruptedException e) {
+                    throw new RuntimeException(e);
+                }
             }
         }
     }

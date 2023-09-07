@@ -1,7 +1,7 @@
 package Exceptions;
 
 public class InvalidGameException extends Exception {
-    public InvalidGameException(int game){
+    public InvalidGameException(String game){
         super("Unrecognized game type " + game);
     }
 }

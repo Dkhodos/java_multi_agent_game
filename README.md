@@ -66,11 +66,11 @@ This project provides a simulation of various game strategies based on specified
   ```
 - Then, run:
   ```shell
-  ./compile_and_run.sh <number_of_agents:int> <probability_of_connection:double> <1:PD game>
+  ./compile_and_run.sh <number_of_agents:int> <probability_of_connection:double> <PD: gameType>
   ```
   or
   ```shell
-  ./compile_and_run.sh <number_of_agents:int> <probability_of_connection:double> <1:BoS game> <friction:int>
+  ./compile_and_run.sh <number_of_agents:int> <probability_of_connection:double> <BoS: gameType> <friction:double>
   ```
   
 ## Logging
