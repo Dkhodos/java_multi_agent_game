@@ -1,4 +1,6 @@
 import ArgsSerializer.*;
+import Exceptions.InvalidGameException;
+import Exceptions.NotEnoughArgumentsException;
 import GameExecutor.*;
 import Logger.*;
 
@@ -8,16 +10,24 @@ public class Main {
     private static final Logger logger = new Logger("Main");
 
     public static void main(String[] args) throws InterruptedException {
+        logger.title("Parse arguments");
+        ArgsSerializer argsSerializer = new ArgsSerializer(args);
+        GameArguments gameArguments;
+        try {
+            gameArguments = argsSerializer.serialize();
+        } catch (InvalidGameException | NotEnoughArgumentsException e) {
+            logger.error(e.toString());
+            printUsage();
+            return;
+        }
+        gameArguments.print();
+
         logger.title("Executing " + NUMBER_OF_GAMES +" Random Games");
         int totalRawRounds = 0;
         int totalSW = 0;
 
         for (int i = 0; i < NUMBER_OF_GAMES; i++) {
             logger.info("Starting Game No." + (i + 1));
-
-            // randomize game arguments
-            GameArguments gameArguments = GameArguments.getRandomArguments(10, 0.5);
-            gameArguments.print();
 
             // execute game i with the random gameArguments
             GameExecutor gameExecutor = new GameExecutor(gameArguments);
@@ -40,5 +50,18 @@ public class Main {
         String SINGE_GAME_REPORT_TEMPLATE = "Starting Game No.%d Summary: rounds: %d, SW: %d\n";
         String game_message = String.format(SINGE_GAME_REPORT_TEMPLATE, gameNumber, results.totalRounds(), results.totalGain());
         logger.debug(game_message);
+    }
+
+    /**
+     * Displays the correct usage of the application along with expected command-line arguments.
+     */
+    public static void printUsage(){
+        logger.info("### For Prisoner’s Dilemma (PD-" + GameType.PD.getValue() +") ###");
+        logger.info("Usage: java Main <number_of_agents:int> <probability_of_connection:double> "
+                + GameType.PD.getValue());
+
+        logger.info("### For Battle of the Sexes (BoS-"+GameType.BoS.getValue()+") ###");
+        logger.info("Usage: java Main <number_of_agents:int> <probability_of_connection:double> "
+                + GameType.BoS.getValue() + " <friction:int>");
     }
 }
