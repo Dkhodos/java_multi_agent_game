@@ -41,4 +41,15 @@ class NetworkGeneratorTest {
             }
         }
     }
+
+    @Test
+    void testGenerateNetworkWithLowProbabilityNoHoles() {
+        NetworkGenerator generator = new NetworkGenerator(0.1, 10);
+        AgentNetwork network = generator.generateNetwork();
+
+        // Check if the network has the expected number of agents and no agent is without a connection
+        for (int i = 0; i < 10; i++) {
+            assertTrue(network.hasConnection(i));
+        }
+    }
 }

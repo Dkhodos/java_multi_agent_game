@@ -60,8 +60,6 @@ public abstract class Agent implements Runnable {
      * Reads messages from neighbors, picks a strategy, sends decisions, and triggers the next agent.
      */
     public void run(){
-//        if(neighbors.isEmpty()) return;
-
         /* 1. Wait for play message, and read messages for neighbors */
         readMessages();
 

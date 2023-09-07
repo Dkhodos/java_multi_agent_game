@@ -32,7 +32,7 @@ public class NetworkGenerator {
      *
      * @return An AgentNetwork representing the generated network.
      */
-    public AgentNetwork generateNetwork(){
+    public AgentNetwork generateNetwork() {
         AgentNetwork network = new AgentNetwork(numberOfAgents);
 
         List<VarTuple> allPairs = generateAllPairs();
@@ -45,10 +45,31 @@ public class NetworkGenerator {
             }
         }
 
+        // Ensure all agents have at least one connection
+        ensureNoHoles(network);
+
         // lock so no modification can be done
         network.lock();
 
         return network;
+    }
+
+    /**
+     * Ensures that all agents have at least one connection in the network.
+     * If any agent does not have a connection, it randomly creates a connection for that agent.
+     *
+     * @param network The AgentNetwork to inspect and modify.
+     */
+    private void ensureNoHoles(AgentNetwork network) {
+        for (int i = 0; i < numberOfAgents; i++) {
+            if (!network.hasConnection(i)) { // Assuming 'hasConnection' is a method in AgentNetwork to check if agent has a connection
+                int j;
+                do {
+                    j = random.nextInt(numberOfAgents); // Randomly select an agent
+                } while (j == i); // Ensure it's not the same agent
+                network.connect(i, j);
+            }
+        }
     }
 
     /**

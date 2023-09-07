@@ -80,6 +80,17 @@ public class AgentNetwork {
     }
 
     /**
+     * Checks if the agent identified by the given ID has any connections.
+     *
+     * @param agentId The ID of the agent.
+     * @return true if the agent has at least one connection, false otherwise.
+     */
+    public boolean hasConnection(int agentId) {
+        List<Integer> neighbors = this.network.get(agentId);
+        return neighbors != null && !neighbors.isEmpty();
+    }
+
+    /**
      *
      * Initializes an empty network for the agents.
      *
