@@ -33,7 +33,7 @@
             if(gameType === "PD"){
                 game.appendChild(drawPBAgent(i));
             } else {
-                game.appendChild(drawBoSAgent(i, "husband"));
+                game.appendChild(drawBoSAgent(i));
             }
         }
 
@@ -44,8 +44,8 @@
         return drawAgent(id , PRISONER_SVG);
     }
 
-    function drawBoSAgent(id, sex){
-        return drawAgent(id, sex === 'wife' ? WIFE_SVG : HUSBAND_SVG);
+    function drawBoSAgent(id){
+        return drawAgent(id, QUESTION_SVG);
     }
 
     function drawAgent(id, svg){
@@ -83,7 +83,7 @@
             tableRows.innerHTML += `<tr>
                 <td>${key}</td>
                 <td>${values.join(", ")}</td>
-                <td class="agent-score">Culculating...</td>
+                <td class="agent-score">Calculating...</td>
             </tr>`
         }
 

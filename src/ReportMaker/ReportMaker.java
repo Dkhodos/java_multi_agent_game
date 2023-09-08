@@ -39,6 +39,7 @@ public class ReportMaker {
             html = html.replace("{{prisonerSvg}}", readSvgFromFile("prisoner.svg"));
             html = html.replace("{{husbandSvg}}", readSvgFromFile("husband.svg"));
             html = html.replace("{{wifeSvg}}", readSvgFromFile("wife.svg"));
+            html = html.replace("{{questionSvg}}", readSvgFromFile("question-mark.svg"));
 
             String reportDirectory = System.getProperty("user.dir") + "/reports";
 
