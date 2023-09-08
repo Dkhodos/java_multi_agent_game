@@ -16,25 +16,25 @@ class ArgsSerializerTest {
 
     @Test
     void testTwoArguments() {
-        ArgsSerializer serializer = createSerializer("1", "0.5");
+        ArgsSerializer serializer = createSerializer("1", getGameTypeString(GameType.PD));
         assertThrows(NotEnoughArgumentsException.class, serializer::serialize);
     }
 
     @Test
     void testValidPDGameWithThreeArguments() {
-        ArgsSerializer serializer = createSerializer("1", "0.5", getGameTypeString(GameType.PD));
+        ArgsSerializer serializer = createSerializer("1", getGameTypeString(GameType.PD),"0.5");
         assertDoesNotThrow(serializer::serialize);
     }
 
     @Test
     void testInvalidBoSGameWithThreeArguments() {
-        ArgsSerializer serializer = createSerializer("1", "0.5", getGameTypeString(GameType.BoS));
+        ArgsSerializer serializer = createSerializer("1", getGameTypeString(GameType.BoS), "0.5");
         assertThrows(NotEnoughArgumentsException.class, serializer::serialize);
     }
 
     @Test
     void testValidBoSGameWithFourArguments() {
-        ArgsSerializer serializer = createSerializer("1", "0.5", getGameTypeString(GameType.BoS), "2");
+        ArgsSerializer serializer = createSerializer("1", getGameTypeString(GameType.BoS), "0.5", "2");
         assertDoesNotThrow(serializer::serialize);
     }
 

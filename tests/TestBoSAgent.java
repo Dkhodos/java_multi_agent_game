@@ -26,7 +26,7 @@ public class TestBoSAgent {
 
     @Test
     public void testAgentStuckWithoutPlayMessage() throws InterruptedException {
-        BoSAgent agent = createAgentWithArguments(BoSAgentSex.HUSBAND);
+        BoSAgent agent = createAgentWithArguments();
 
         Thread t = new Thread(agent);
 
@@ -39,7 +39,7 @@ public class TestBoSAgent {
 
     @Test
     public void testAgentRunsAndSendsMessageToNeighbor() throws InterruptedException {
-        BoSAgent agent = createAgentWithArguments(BoSAgentSex.WIFE);
+        BoSAgent agent = createAgentWithArguments();
 
         Thread t = new Thread(agent);
 
@@ -51,7 +51,6 @@ public class TestBoSAgent {
         MailerMessage message1 = mailer.readOne(neighborId);
         assertNotNull(message1);
         assertTrue(message1 instanceof BoSMessage);
-        assertEquals(((BoSMessage) message1).getAgentSex(), BoSAgentSex.WIFE);
         assertEquals(message1.getSenderId(), agentId);
 
         MailerMessage message2 = mailer.readOne(neighborId);
@@ -62,7 +61,7 @@ public class TestBoSAgent {
 
     @Test
     public void testAgentDoesNotSentMessageTwice() throws InterruptedException {
-        BoSAgent agent = createAgentWithArguments(BoSAgentSex.HUSBAND);
+        BoSAgent agent = createAgentWithArguments();
 
         Thread t1 = new Thread(agent);
 
@@ -87,12 +86,28 @@ public class TestBoSAgent {
         assertEquals(message2.getSenderId(), neighborId);
     }
 
+    @Test
+    public void testAgentSexHusbandWhenFractionIsZero(){
+        BoSAgent agent = createAgentWithArguments(0);
+        assertEquals(BoSAgentSex.HUSBAND, agent.getAgentSex());
+    }
 
-    private BoSAgent createAgentWithArguments(BoSAgentSex sex){
-        BoSAgent agent = new BoSAgent(0, 2, mailer, audit, neighbors, 0.5f);
+    @Test
+    public void testAgentSexHusbandWhenFractionIsOne(){
+        BoSAgent agent = createAgentWithArguments(1);
+        assertEquals(BoSAgentSex.WIFE, agent.getAgentSex());
+    }
+
+
+    private BoSAgent createAgentWithArguments(float fraction){
+        BoSAgent agent = new BoSAgent(0, 2, mailer, audit, neighbors, fraction);
         mailer.register(agentId);
         mailer.register(neighborId);
 
         return agent;
+    }
+
+    private BoSAgent createAgentWithArguments(){
+        return createAgentWithArguments(0.5f);
     }
 }
