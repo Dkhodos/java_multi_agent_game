@@ -4,7 +4,12 @@ import Exceptions.NotEnoughArgumentsException;
 import GameExecutor.*;
 import Logger.*;
 
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Paths;
+
 public class Main {
+    private static final String OUTPUTS_FOLDER  = System.getProperty("user.dir") + "/runs";
     private static final int NUMBER_OF_GAMES = 100;
 
     private static final Logger logger = new Logger("Main");
@@ -42,8 +47,7 @@ public class Main {
         }
 
         logger.title("Summarizing results");
-        logger.info("Num_Iterations: " + (totalRawRounds / NUMBER_OF_GAMES));
-        logger.info("SW: " + (totalSW / NUMBER_OF_GAMES));
+        reportResults(gameArguments, totalRawRounds, totalSW);
     }
 
     static private void printSingleGameResults(GameExecutorResults results, int gameNumber){
@@ -63,5 +67,22 @@ public class Main {
         logger.info("### For Battle of the Sexes (BoS-"+GameType.BoS.getValue()+") ###");
         logger.info("Usage: java Main <number_of_agents:int> <probability_of_connection:double> "
                 + GameType.BoS.getValue() + " <friction:int>");
+    }
+
+    private static void reportResults(GameArguments gameArguments, double totalRawRounds, double totalSW){
+        String numIterations = "Num_Iterations - " + (totalRawRounds / NUMBER_OF_GAMES);
+        String SW = "SW - " + (totalSW / NUMBER_OF_GAMES);
+
+        logger.info(numIterations);
+        logger.info(SW);
+
+        String output = "input: " + gameArguments.toString() + numIterations + SW;
+
+        try {
+            Files.write(Paths.get(OUTPUTS_FOLDER + gameArguments.gameType() + ".txt"), output.getBytes());
+        } catch (IOException e) {
+            logger.error("File to write to output file");
+            e.printStackTrace();
+        }
     }
 }
