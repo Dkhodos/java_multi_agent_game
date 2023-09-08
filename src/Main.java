@@ -4,9 +4,9 @@ import Exceptions.NotEnoughArgumentsException;
 import GameExecutor.*;
 import Logger.*;
 
-import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.Paths;
+//import java.io.IOException;
+//import java.nio.file.Files;
+//import java.nio.file.Paths;
 import java.text.DecimalFormat;
 
 public class Main {
@@ -79,13 +79,13 @@ public class Main {
         logger.info(numIterations);
         logger.info(SW);
 
-        String output = "// input parameters - " + gameArguments.toString() + "\n\n" + numIterations + "\n" + SW + "\n";
-
-        try {
-            Files.write(Paths.get(OUTPUTS_FOLDER + gameArguments.gameType() + ".txt"), output.getBytes());
-        } catch (IOException e) {
-            logger.error("File to write to output file");
-            e.printStackTrace();
-        }
+//        String output = "// input parameters - " + gameArguments.toString() + "\n\n" + numIterations + "\n" + SW + "\n";
+//
+//        try {
+//            Files.write(Paths.get(OUTPUTS_FOLDER + gameArguments.gameType() + ".txt"), output.getBytes());
+//        } catch (IOException e) {
+//            logger.error("File to write to output file");
+//            e.printStackTrace();
+//        }
     }
 }

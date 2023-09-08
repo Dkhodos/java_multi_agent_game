@@ -34,7 +34,7 @@
 - 📁 **src** - the actual Java code.
 - 📁 **static** - a resource folder, mostly for the readme and the reports.
 - 📁 **tests** - tests folder, with its own test data.
-- 📁 **outputs** - example runs for assignment inputs.
+- 📁 **outputs** - example runs for assignment's inputs.
 - 📄 **java_multi_agent_game.iml** - class path dependencies (for IntelliJ projects).
 - 📄 **compile_and_run** - executes the main with argument, example [here](#usage).
 - 📄 **java_multi_agent_game.iml** - class path dependencies (for IntelliJ projects).
