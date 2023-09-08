@@ -2,13 +2,12 @@ package ArgsSerializer;
 
 import Logger.Logger;
 
-import java.util.Random;
-
 /**
  * Represents the parsed and validated game parameters.
  */
 public record GameArguments(int numberOfAgents, double probability, GameType gameType, float fraction) {
-    private static final Random random = new Random();
+    private static final String TO_STRING_PD_TEMPLATE = "%d %s %,.1f";
+    private static final String TO_STRING_BoS_TEMPLATE = "%d %s %,.1f %,.1f";
 
     // Format string for logging the parsed arguments
     private final static String FORMATTED_ARGUMENTS_STRING = "Game arguments: numberOfAgents: %d, probability: %,.1f, gameType: %s, fraction: %s";
@@ -32,6 +31,14 @@ public record GameArguments(int numberOfAgents, double probability, GameType gam
      */
     public void print(){
         logger.info(String.format(FORMATTED_ARGUMENTS_STRING, numberOfAgents, probability, gameType, fraction));
+    }
+
+    @Override
+    public String toString() {
+        if(this.gameType() == GameType.PD){
+            return String.format(TO_STRING_PD_TEMPLATE, numberOfAgents, gameType.getValue(), probability);
+        }
+        return String.format(TO_STRING_BoS_TEMPLATE, numberOfAgents, gameType.getValue(), probability, fraction);
     }
 }
 

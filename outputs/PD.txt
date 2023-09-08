@@ -1,0 +1,4 @@
+// input parameters - 20 PD 0.5
+
+Num_Iterations - 2.0
+SW - 1080.0

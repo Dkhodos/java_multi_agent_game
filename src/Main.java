@@ -9,8 +9,8 @@ import java.nio.file.Files;
 import java.nio.file.Paths;
 
 public class Main {
-    private static final String OUTPUTS_FOLDER  = System.getProperty("user.dir") + "/runs";
-    private static final int NUMBER_OF_GAMES = 100;
+    private static final String OUTPUTS_FOLDER  = System.getProperty("user.dir") + "/outputs/";
+    private static final int NUMBER_OF_GAMES = 1;
 
     private static final Logger logger = new Logger("Main");
 
@@ -76,7 +76,7 @@ public class Main {
         logger.info(numIterations);
         logger.info(SW);
 
-        String output = "input: " + gameArguments.toString() + numIterations + SW;
+        String output = "// input parameters - " + gameArguments.toString() + "\n\n" + numIterations + "\n" + SW + "\n";
 
         try {
             Files.write(Paths.get(OUTPUTS_FOLDER + gameArguments.gameType() + ".txt"), output.getBytes());
