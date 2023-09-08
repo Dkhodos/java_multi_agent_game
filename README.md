@@ -69,10 +69,44 @@
 - **Agent**: Represents individual agents with unique strategies and decision-making capabilities.
 - **NetworkGenerator**: Generates agent networks.
 - **Main**: The main entry point of the application.
+- **SingleRunWithReport**: Run game in a single iteration with an HTML report.
 - **GameExecutorResults**: Contains the results of a game execution.
 - **Various Messages**: Classes like `PDMessage`, `MailerMessage`, `PlayMessage`, `BoSMessage`, and others represent different types of messages exchanged between agents.
 - **Enums**: Enums such as `GameType`, `BoSAgentSex`, `BoSStrategy`, and `PDStrategy` represent various categories and strategies in the simulation.
 - **Interfaces and Records**: Components like `PBPayoff`, `BoSPayoff`, and `BoSNeighborData` help to define structured data and expected behaviors.
+- **Settings**: Contains program settings, such as debug logs and agent sleep time.
+
+## How This Works ?
+1. **Initialization:**
+    - Use the `Settings` class to configure general program settings, such as enabling/disabling debug logs or setting the agent sleep time.
+    - The `Logger` class provides different logging functionalities. It allows you to log messages in various levels and colors to give clarity during program execution.
+
+2. **Agent Network Generation:**
+    - The `NetworkGenerator` is responsible for creating the Agent Network, which represents the interconnection of agents. This network defines how agents communicate and influence each other.
+
+3. **Game Execution:**
+    - The `GameExecutor` class manages the game's execution. All agents in the game run one by one in a turn-based fashion.
+    - Agents follow an internal flow:
+        1. **Read Messages:** Wait for a play message and read messages from neighbors using `readMessages()`.
+        2. **Strategy Decision:** Based on the neighbors' decisions, they pick the best strategy using `pickStrategy()`.
+        3. **Send Decision:** If the chosen strategy changes, agents send their decision to neighbors using `sendDecisionToNeighbors()`.
+        4. **Trigger Next Agent:** After completing their turn, agents trigger the next agent using `triggerNextAgent()`.
+    - If any issues arise during the game initialization or execution, custom exception classes like `NotEnoughArgumentsException` or `InvalidGameException` may be thrown.
+
+4. **Multiple Game Runs:**
+    - The `Main` class is the starting point of the application. It runs the game `NUMBER_OF_GAMES` times and then prints out the average results of these runs.
+
+5. **Message Passing:**
+    - Classes like `PDMessage`, `PlayMessage`, and `BoSMessage` are used for communication or status updates between different components of the application.
+
+6. **Reporting and Auditing:**
+    - Once the game is executed, you can generate detailed reports using the `ReportMaker` class.
+    - The `Audit` class might be used to keep track of specific game events or results for accountability or analysis.
+
+7. **Miscellaneous:**
+    - The `Mailer` class can be used to send notifications or communication, possibly regarding game results or status updates.
+    - The `ArgsSerializer` class helps in serializing arguments, useful for data interchange or storage.
+    - The `SingleRunWithReport` class provides a way to execute the game for a single run and generate a corresponding report.
 
 ## Usage:
 
