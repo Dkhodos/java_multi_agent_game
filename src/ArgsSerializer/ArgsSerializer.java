@@ -32,8 +32,9 @@ public class ArgsSerializer {
         }
 
         int numberOfAgents = Integer.parseInt(arguments[0]);
-        double probability = Double.parseDouble(arguments[1]);
-        String game = arguments[2];
+        String game = arguments[1];
+        double probability = Double.parseDouble(arguments[2]);
+
 
         if(game.equals(GameType.PD.getValue())){
             return new GameArguments(numberOfAgents, probability, GameType.PD);
@@ -45,7 +46,6 @@ public class ArgsSerializer {
             }
 
             float fraction = Float.parseFloat(arguments[3]);
-
             return new GameArguments(numberOfAgents, probability, GameType.BoS, fraction);
         }
 
