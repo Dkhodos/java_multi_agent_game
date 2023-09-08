@@ -61,12 +61,12 @@ public class Main {
      */
     public static void printUsage(){
         logger.info("### For Prisoner’s Dilemma (PD-" + GameType.PD.getValue() +") ###");
-        logger.info("Usage: java Main <number_of_agents:int> <probability_of_connection:double> "
-                + GameType.PD.getValue());
+        logger.info("Usage: java Main <number_of_agents:int> "+ GameType.PD.getValue()
+                + "<probability_of_connection:float>");
 
         logger.info("### For Battle of the Sexes (BoS-"+GameType.BoS.getValue()+") ###");
-        logger.info("Usage: java Main <number_of_agents:int> <probability_of_connection:double> "
-                + GameType.BoS.getValue() + " <fraction:int>");
+        logger.info("Usage: java Main <number_of_agents:int> " + GameType.BoS.getValue()
+                + "<probability_of_connection:float> <fraction:float>");
     }
 
     private static void reportResults(GameArguments gameArguments, double totalRawRounds, double totalSW){

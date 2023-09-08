@@ -96,11 +96,11 @@
   ```
 - Then, run:
   ```shell
-  ./compile_and_run.sh <number_of_agents:int> <probability_of_connection:double> <PD: gameType>
+  ./compile_and_run.sh <number_of_agents:int> <probability_of_connection:float> <PD: gameType>
   ```
   or
   ```shell
-  ./compile_and_run.sh <number_of_agents:int> <probability_of_connection:double> <BoS: gameType> <fraction:float>
+  ./compile_and_run.sh <number_of_agents:int> <probability_of_connection:float> <BoS: gameType> <fraction:float>
   ```
 
 ### SingleRunWithReport Program:
