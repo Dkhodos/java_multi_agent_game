@@ -63,7 +63,7 @@ public class BoSAgent extends Agent implements BoSPayoff {
         int personalGain = getPersonalGain();
 
         audit.recordMessage(agentId, -1, new AgentScoreMessage(agentId, personalGain));
-        logger.info("Agent " + agentId + " earned a score of " + personalGain
+        logger.debug("Agent " + agentId + " earned a score of " + personalGain
                 + ", with strategy: " + strategy + ", and sex: " + agentSex);
     }
 

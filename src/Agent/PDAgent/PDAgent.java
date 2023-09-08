@@ -57,7 +57,7 @@ public class PDAgent extends Agent implements PDPayoff {
         int personalGain = getPersonalGain();
 
         audit.recordMessage(agentId, -1, new AgentScoreMessage(agentId, personalGain));
-        logger.info("Agent " + agentId + " earned a score of " + personalGain + ", with strategy: " + strategy);
+        logger.debug("Agent " + agentId + " earned a score of " + personalGain + ", with strategy: " + strategy);
     }
 
     /**
