@@ -1,4 +1,4 @@
 package Audit.Messages;
 
-public record TotalScoreMessage(int score) implements AuditMessage {
+public record TotalScoreMessage(double score) implements AuditMessage {
 }

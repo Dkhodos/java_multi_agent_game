@@ -49,7 +49,7 @@ public class TestGame {
 
             // accumulate game reports
             totalRawRounds += results.totalRounds();
-            totalSW += ((double) results.totalGain() / gameArguments.numberOfAgents());
+            totalSW += results.avgGain();
         }
 
         double averageRound = totalRawRounds / NUMBER_OF_GAMES;

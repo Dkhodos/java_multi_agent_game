@@ -67,10 +67,10 @@ public class GameExecutor {
         reportAgentScores(agents);
 
         /* 7. get total gain */
-        int totalGain = getTotalGain(agents);
+        double totalGain = getAverageGain(agents);
 
         /* 8. audit total gain */
-        reportTotalScore(totalGain);
+        reportAverageScore(totalGain);
 
         /* 9. return scores */
         return new GameExecutorResults(totalGain, totalRounds, network, audit);
@@ -176,20 +176,20 @@ public class GameExecutor {
      * @param agents Array of game agents.
      * @return Total score.
      */
-    private int getTotalGain(Agent[] agents){
+    private double getAverageGain(Agent[] agents){
         int totalGain = 0;
         for (Agent agent : agents) {
             totalGain += agent.getPersonalGain();
         }
-        return totalGain;
+        return (double) totalGain / agents.length;
     }
 
     /**
      * Records the total score of the game to the audit.
      *
-     * @param score Total game score.
+     * @param score Average game score.
      */
-    private void reportTotalScore(int score){
+    private void reportAverageScore(double score){
         audit.recordMessage(GAME_MASTER_ID, GAME_MASTER_ID, new TotalScoreMessage(score));
     }
 }

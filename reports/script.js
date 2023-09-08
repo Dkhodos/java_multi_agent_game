@@ -140,10 +140,10 @@
           </thead>
           <tbody>
             <tr><td>Number of Agents</td><td>${numberOfAgents}</td></tr>
-            <tr><td>Probability of connection</td><td>${probability * 100}%</td></tr>
+            <tr><td>Probability of connection</td><td>${probability}</td></tr>
             ${fraction ? "<tr><td>Fraction</td><td>" + fraction + "</td></tr>" : ""}
             <tr><td>Rounds</td><td class="round">Initializing...</td></tr>
-            <tr><td>Total Social Welfare (SW)</td><td class="score">Culculating...</td></tr>
+            <tr><td>Average Social Welfare (SW)</td><td class="score">Calculating...</td></tr>
           </tbody>
         </table>
         <div class="legend">

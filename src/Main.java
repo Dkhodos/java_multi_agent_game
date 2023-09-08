@@ -43,7 +43,7 @@ public class Main {
 
             // accumulate game reports
             totalRawRounds += results.totalRounds();
-            totalSW += ((double) results.totalGain() / gameArguments.numberOfAgents());
+            totalSW += results.avgGain();
 
             // print single game results (debug)
             printSingleGameResults(results, i+1);
@@ -55,7 +55,7 @@ public class Main {
 
     static private void printSingleGameResults(GameExecutorResults results, int gameNumber){
         String SINGE_GAME_REPORT_TEMPLATE = "Starting Game No.%d Summary: rounds: %d, SW: %d\n";
-        String game_message = String.format(SINGE_GAME_REPORT_TEMPLATE, gameNumber, results.totalRounds(), results.totalGain());
+        String game_message = String.format(SINGE_GAME_REPORT_TEMPLATE, gameNumber, results.totalRounds(), results.avgGain());
         logger.debug(game_message);
     }
 
