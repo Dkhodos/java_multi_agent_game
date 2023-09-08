@@ -6,7 +6,6 @@ import org.junit.jupiter.api.*;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-@Disabled
 public class TestGame {
     private record Range(double min, double max){}
 
@@ -20,6 +19,7 @@ public class TestGame {
         Settings.DEBUG = false;
     }
 
+    @Disabled
     @Test
     public void testFullPDGame() throws InterruptedException {
         GameArguments gameArguments  = new GameArguments(500, 0.5f, GameType.PD);
@@ -27,6 +27,7 @@ public class TestGame {
         runGame(gameArguments, new Range(2,3), new Range(400, 700));
     }
 
+    @Disabled
     @Test
     public void testFullBoSGame() throws InterruptedException {
         GameArguments gameArguments  = new GameArguments(500, 0.5f, GameType.BoS, 0.3f);
