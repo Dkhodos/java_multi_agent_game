@@ -4,7 +4,7 @@
 
 - This project delves deep into the realm of "Multi-Agent Games" played on networks. Two prominent games, namely the Battle of the Sexes (BoS) and Prisoners' Dilemma (PD), take center stage in this endeavor.
 
-   **Battle of the Sexes (BoS)**: This game illustrates a situation where two players (often referred to as the 'husband' and 'wife') want to spend their evening together but have different preferences for activities. The payoff matrix is usually presented as:
+  - **Battle of the Sexes (BoS)**: This game illustrates a situation where two players (often referred to as the 'husband' and 'wife') want to spend their evening together but have different preferences for activities. The payoff matrix is usually presented as:
 
     |               | Husband: Theater | Husband: Soccer |
     |---------------|------------------|-----------------|
