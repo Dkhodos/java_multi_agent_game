@@ -23,7 +23,7 @@ public class ReportMaker {
     final static String reportTemplateFile = System.getProperty("user.dir") + "/reports/report.template.html";
     final static String staticFilesDirectory = System.getProperty("user.dir") + "/static";
 
-    public void generateReport(int numberOfAgents, GameType gameType,int fraction, double probability,
+    public void generateReport(int numberOfAgents, GameType gameType,float fraction, double probability,
                                AgentNetwork network, Audit audit){
         try {
             String html = new String(Files.readAllBytes(Paths.get(reportTemplateFile)));

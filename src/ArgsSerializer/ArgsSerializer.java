@@ -44,9 +44,9 @@ public class ArgsSerializer {
                 throw new NotEnoughArgumentsException(MIN_NUMBER_ARGS + 1, arguments.length);
             }
 
-            int friction = Integer.parseInt(arguments[3]);
+            float fraction = Float.parseFloat(arguments[3]);
 
-            return new GameArguments(numberOfAgents, probability, GameType.BoS, friction);
+            return new GameArguments(numberOfAgents, probability, GameType.BoS, fraction);
         }
 
         throw new InvalidGameException(game);

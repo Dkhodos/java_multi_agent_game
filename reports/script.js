@@ -29,15 +29,11 @@
         const game = document.createElement("div");
         game.className = 'game';
 
-        let womenToCreate = fraction;
-
         for (let i = 0; i < numberOfAgents; i++) {
             if(gameType === "PD"){
                 game.appendChild(drawPBAgent(i));
             } else {
-                const sex = womenToCreate > 0 ? "wife" : "husband";
-                game.appendChild(drawBoSAgent(i, sex));
-                womenToCreate --;
+                game.appendChild(drawBoSAgent(i, "husband"));
             }
         }
 
@@ -224,6 +220,9 @@
                 const meta = JSON.parse(message.meta);
                 const activeAgentStrategyElement = document.querySelector(".agent.active .strategy");
                 if(activeAgentStrategyElement) activeAgentStrategyElement.innerHTML = meta.strategy;
+
+                const activeAgentCharacterElement = document.querySelector(".agent.active .chrachter");
+                if(activeAgentCharacterElement) activeAgentCharacterElement.innerHTML = meta.sex === "WIFE" ? WIFE_SVG : HUSBAND_SVG;
 
                 const neighborAgent = document.querySelector(`.agent[data-id="${message.receiver}"]`);
                 if(neighborAgent) neighborAgent.classList.add("neighbor");

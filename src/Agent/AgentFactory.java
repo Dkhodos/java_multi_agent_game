@@ -23,11 +23,10 @@ public class AgentFactory {
      * @param mailer Communication interface for the agent.
      * @param audit Audit instance for logging activities.
      * @param neighbors List of neighboring agents.
-     * @param bosAgentSex Gender of the agent (only applicable for BoS game type).
      * @return An instance of an Agent based on the game type.
      * @throws IllegalArgumentException If the game type is null or if gender is null for BoS game type.
      */
-    public static Agent createAgent(GameType gameType, int id, int numberOfAgents, Mailer mailer, Audit audit, List<Integer> neighbors, BoSAgentSex bosAgentSex) {
+    public static Agent createAgent(GameType gameType, int id, int numberOfAgents, Mailer mailer, Audit audit, List<Integer> neighbors, float fraction) {
         if (gameType == null) {
             throw new IllegalArgumentException("GameType cannot be null");
         }
@@ -35,10 +34,7 @@ public class AgentFactory {
         return switch (gameType) {
             case PD -> new PDAgent(id, numberOfAgents, mailer, audit, neighbors);
             case BoS -> {
-                if (bosAgentSex == null) {
-                    throw new IllegalArgumentException("BoSAgentSex cannot be null for BoS game type");
-                }
-                yield new BoSAgent(id, numberOfAgents, mailer, audit, neighbors, bosAgentSex);
+                yield new BoSAgent(id, numberOfAgents, mailer, audit, neighbors, fraction);
             }
         };
     }
@@ -54,7 +50,7 @@ public class AgentFactory {
      * @param fraction Fraction of agents to be of a specific gender (Women, only applicable for BoS game type).
      * @return An array of Agent instances.
      */
-    public static Agent[] createAgents(GameType gameType, int numberOfAgents, Mailer mailer, Audit audit, AgentNetwork network, int fraction) {
+    public static Agent[] createAgents(GameType gameType, int numberOfAgents, Mailer mailer, Audit audit, AgentNetwork network, float fraction) {
         Agent[] agents = new Agent[numberOfAgents];
         int createdAgents = 0;
 
@@ -62,11 +58,10 @@ public class AgentFactory {
             List<Integer> neighbors = network.getNeighbors(i);
 
             agents[i] = switch (gameType) {
-                case PD -> createAgent(GameType.PD, i, numberOfAgents, mailer, audit,neighbors, null);
+                case PD -> createAgent(GameType.PD, i, numberOfAgents, mailer, audit,neighbors, 0);
                 case BoS -> {
-                    BoSAgentSex bosAgentSex = createdAgents < fraction ? BoSAgentSex.WIFE : BoSAgentSex.HUSBAND;
                     createdAgents++;
-                    yield createAgent(GameType.BoS, i, numberOfAgents, mailer, audit, neighbors, bosAgentSex);
+                    yield createAgent(GameType.BoS, i, numberOfAgents, mailer, audit, neighbors, fraction);
                 }
             };
 

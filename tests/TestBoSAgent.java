@@ -89,7 +89,7 @@ public class TestBoSAgent {
 
 
     private BoSAgent createAgentWithArguments(BoSAgentSex sex){
-        BoSAgent agent = new BoSAgent(0, 2, mailer, audit, neighbors, sex);
+        BoSAgent agent = new BoSAgent(0, 2, mailer, audit, neighbors, 0.5f);
         mailer.register(agentId);
         mailer.register(neighborId);
 

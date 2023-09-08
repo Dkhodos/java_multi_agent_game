@@ -46,7 +46,7 @@ public class GameExecutor {
         int numberOfAgents = this.arguments.numberOfAgents();
         double probability = this.arguments.probability();
         GameType gameType = this.arguments.gameType();
-        int fraction = this.arguments.fraction();
+        float fraction = this.arguments.fraction();
 
         /* 2. Initialize agents network */
         NetworkGenerator generator = new NetworkGenerator(probability, numberOfAgents);

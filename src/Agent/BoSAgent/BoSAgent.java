@@ -29,11 +29,11 @@ public class BoSAgent extends Agent implements BoSPayoff {
      * @param mailer Communication interface for the agent.
      * @param audit Audit instance for logging activities.
      * @param neighbors List of neighboring agents.
-     * @param agentSex Gender (sex) of the agent.
+     * @param wifeFraction The fraction for this agent to be a wife.
      */
-    public BoSAgent(int id, int numberOfAgents, Mailer mailer, Audit audit,List<Integer> neighbors, BoSAgentSex agentSex) {
+    public BoSAgent(int id, int numberOfAgents, Mailer mailer, Audit audit,List<Integer> neighbors, float wifeFraction) {
         super(id, numberOfAgents, mailer, audit, neighbors);
-        this.agentSex = agentSex;
+        this.agentSex = randomizeAgentSex(wifeFraction);
     }
 
     /**
@@ -105,5 +105,9 @@ public class BoSAgent extends Agent implements BoSPayoff {
             mailer.send(neighborId, boSMessage);
             audit.recordMessage(agentId, neighborId, boSMessage);
         }
+    }
+
+    private BoSAgentSex randomizeAgentSex(float wifeFraction) {
+        return random.nextDouble() <= wifeFraction ? BoSAgentSex.WIFE : BoSAgentSex.HUSBAND;
     }
 }
