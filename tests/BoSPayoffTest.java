@@ -1,5 +1,5 @@
-package Agent.BoSAgent;
 
+import Agent.BoSAgent.*;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 

@@ -7,7 +7,7 @@ import org.junit.jupiter.api.Test;
 import java.util.HashMap;
 import java.util.Map;
 
-public class PBPayoffTest {
+public class PDPayoffTest {
 
     private PDPayoff testClass;
 
