@@ -34,6 +34,7 @@
 - 📁 **src** - the actual Java code.
 - 📁 **static** - a resource folder, mostly for the readme and the reports.
 - 📁 **tests** - tests folder, with its own test data.
+- 📁 **outputs** - example runs for assignment inputs.
 - 📄 **java_multi_agent_game.iml** - class path dependencies (for IntelliJ projects).
 - 📄 **compile_and_run** - executes the main with argument, example [here](#usage).
 - 📄 **java_multi_agent_game.iml** - class path dependencies (for IntelliJ projects).
@@ -99,7 +100,7 @@
   ```
   or
   ```shell
-  ./compile_and_run.sh <number_of_agents:int> <probability_of_connection:double> <BoS: gameType> <friction:double>
+  ./compile_and_run.sh <number_of_agents:int> <probability_of_connection:double> <BoS: gameType> <fraction:float>
   ```
 
 ### SingleRunWithReport Program:

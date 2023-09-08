@@ -66,7 +66,7 @@ public class Main {
 
         logger.info("### For Battle of the Sexes (BoS-"+GameType.BoS.getValue()+") ###");
         logger.info("Usage: java Main <number_of_agents:int> <probability_of_connection:double> "
-                + GameType.BoS.getValue() + " <friction:int>");
+                + GameType.BoS.getValue() + " <fraction:int>");
     }
 
     private static void reportResults(GameArguments gameArguments, double totalRawRounds, double totalSW){
