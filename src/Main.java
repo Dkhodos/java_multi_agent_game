@@ -7,10 +7,13 @@ import Logger.*;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
+import java.text.DecimalFormat;
 
 public class Main {
     private static final String OUTPUTS_FOLDER  = System.getProperty("user.dir") + "/outputs/";
-    private static final int NUMBER_OF_GAMES = 1;
+    private static final int NUMBER_OF_GAMES = 100;
+    private static final DecimalFormat swDf = new DecimalFormat("0.00");
+    private static final DecimalFormat roundsDf = new DecimalFormat("0.0");
 
     private static final Logger logger = new Logger("Main");
 
@@ -40,7 +43,7 @@ public class Main {
 
             // accumulate game reports
             totalRawRounds += results.totalRounds();
-            totalSW += results.totalGain();
+            totalSW += ((double) results.totalGain() / gameArguments.numberOfAgents());
 
             // print single game results (debug)
             printSingleGameResults(results, i+1);
@@ -70,8 +73,8 @@ public class Main {
     }
 
     private static void reportResults(GameArguments gameArguments, double totalRawRounds, double totalSW){
-        String numIterations = "Num_Iterations - " + (totalRawRounds / NUMBER_OF_GAMES);
-        String SW = "SW - " + (totalSW / NUMBER_OF_GAMES);
+        String numIterations = "Num_Iterations - " + roundsDf.format(totalRawRounds / NUMBER_OF_GAMES);
+        String SW = "SW - " + swDf.format(totalSW / NUMBER_OF_GAMES);
 
         logger.info(numIterations);
         logger.info(SW);
