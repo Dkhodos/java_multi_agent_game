@@ -32,7 +32,7 @@ public class Main {
 
         logger.title("Executing " + NUMBER_OF_GAMES +" Random Games");
         double totalRawRounds = 0;
-        double totalSW = 0;
+        double totalAverageSW = 0;
 
         for (int i = 0; i < NUMBER_OF_GAMES; i++) {
             logger.info("Starting Game No." + (i + 1));
@@ -43,14 +43,14 @@ public class Main {
 
             // accumulate game reports
             totalRawRounds += results.totalRounds();
-            totalSW += results.avgGain();
+            totalAverageSW += results.avgGain();
 
             // print single game results (debug)
             printSingleGameResults(results, i+1);
         }
 
         logger.title("Summarizing results");
-        reportResults(gameArguments, totalRawRounds, totalSW);
+        reportResults(gameArguments, totalRawRounds, totalAverageSW);
     }
 
     static private void printSingleGameResults(GameExecutorResults results, int gameNumber){
@@ -72,9 +72,9 @@ public class Main {
                 + "<probability_of_connection:float> <fraction:float>");
     }
 
-    private static void reportResults(GameArguments gameArguments, double totalRawRounds, double totalSW){
+    private static void reportResults(GameArguments gameArguments, double totalRawRounds, double totalAverageSW){
         String numIterations = "Num_Iterations - " + roundsDf.format(totalRawRounds / NUMBER_OF_GAMES);
-        String SW = "SW - " + swDf.format(totalSW / NUMBER_OF_GAMES);
+        String SW = "SW - " + swDf.format(totalAverageSW / NUMBER_OF_GAMES);
 
         logger.info(numIterations);
         logger.info(SW);
