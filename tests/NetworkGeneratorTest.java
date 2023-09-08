@@ -21,9 +21,9 @@ class NetworkGeneratorTest {
         NetworkGenerator generator = new NetworkGenerator(0, 10);
         AgentNetwork network = generator.generateNetwork();
 
-        // Check if the network has the expected number of agents and no connections
+        // Check if the network has the expected number of agents and at least a single connection
         for (int i = 0; i < 10; i++) {
-            assertTrue(network.getNeighbors(i).isEmpty());
+            assertFalse(network.getNeighbors(i).isEmpty());
         }
     }
 

@@ -86,8 +86,7 @@ public class AgentNetwork {
      * @return true if the agent has at least one connection, false otherwise.
      */
     public boolean hasConnection(int agentId) {
-        List<Integer> neighbors = this.network.get(agentId);
-        return neighbors != null && !neighbors.isEmpty();
+        return !(this.network.get(agentId).isEmpty());
     }
 
     /**
