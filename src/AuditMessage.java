@@ -1,0 +1,3 @@
+interface AuditMessage extends Message {
+
+}
