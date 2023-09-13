@@ -54,7 +54,7 @@ public class Main {
     }
 
     static private void printSingleGameResults(GameExecutorResults results, int gameNumber){
-        String SINGE_GAME_REPORT_TEMPLATE = "Starting Game No.%d Summary: rounds: %d, SW: %d\n";
+        String SINGE_GAME_REPORT_TEMPLATE = "Starting Game No.%d Summary: rounds: %d, SW: %.2f\n";
         String game_message = String.format(SINGE_GAME_REPORT_TEMPLATE, gameNumber, results.totalRounds(), results.avgGain());
         logger.debug(game_message);
     }
