@@ -53,11 +53,11 @@ public class Main {
         reportResults(gameArguments, totalRawRounds, totalAverageSW);
     }
 
-    static private void printSingleGameResults(GameExecutorResults results, int gameNumber){
-        String SINGE_GAME_REPORT_TEMPLATE = "Starting Game No.%d Summary: rounds: %d, SW: %d\n";
-        String game_message = String.format(SINGE_GAME_REPORT_TEMPLATE, gameNumber, results.totalRounds(), results.avgGain());
-        logger.debug(game_message);
-    }
+        static private void printSingleGameResults(GameExecutorResults results, int gameNumber){
+            String SINGE_GAME_REPORT_TEMPLATE = "Starting Game No.%d Summary: rounds: %d, SW: %f\n";
+            String game_message = String.format(SINGE_GAME_REPORT_TEMPLATE, gameNumber, results.totalRounds(), results.avgGain());
+            logger.debug(game_message);
+        }
 
     /**
      * Displays the correct usage of the application along with expected command-line arguments.
